@@ -13,7 +13,7 @@ type Layer struct {
 }
 
 type Schedule struct {
-	Title   string
-	Timein  string
-	Timeout string
+	Title string
+	Start string
+	End   string
 }
