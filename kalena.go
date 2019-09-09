@@ -12,6 +12,8 @@ var (
 	flagTitle = flag.String("title", "", "Title")
 	flagLayerTitle = flag.String("layerTitle", "", "Layer Title")
 	flagLayerColor = flag.String("layerColor", "", "Layer Color")
+	flagLayerHidden = flag.bool("hidden", false, "Layer hidden")
+	flagLayerGreyscale = flag.bool("greyscale", false, "Layer geyscale")
 	flagStart = flag.String("start", "", "Start time")
 	flagEnd   = flag.String("end", "", "End time")
 )
@@ -29,7 +31,7 @@ func main() {
 	}
 	if *flagLayerColor != ""{
 		if !regexWebColor.MatchString(*flagLayerColor){
-			log.Fatal("#FF0011 형식의 문자열이 아닙니다.")
+			log.Fatal("#FF0011 형식의 문자열이 아닙니다")
 		}
 	}
 	
@@ -47,6 +49,8 @@ func main() {
 
 	l.Title = *flagLayerTitle
 	l.Color = *flagLayerColor
+	l.hidden = *flagLayerHidden
+	l.greyscale = *flagLayerGreyscale
 	s.Title = *flagTitle
 	s.Start = *flagStart
 	s.End = *flagEnd
