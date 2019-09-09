@@ -3,8 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
-	"os"
 	"log"
+	"os"
 )
 
 var (
@@ -27,11 +27,11 @@ func main() {
 	}
 	//사용자에게 입력받은 데이터값이 유효한지 체크
 	if !regexTime.MatchString(*flagStart) {
-        log.Fatal("2019-09-09 형식의 문자열이 아닙니다")
+		log.Fatal("2019-09-09 형식의 문자열이 아닙니다")
 	}
 	if !regexTime.MatchString(*flagEnd) {
-        log.Fatal("2019-09-09 형식의 문자열이 아닙니다")
-    }
+		log.Fatal("2019-09-09 형식의 문자열이 아닙니다")
+	}
 	// declare variables for struct
 	c := Calendar{}
 	l := Layer{}
