@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 	"os"
 )
 
@@ -23,6 +24,13 @@ func main() {
 	if *flagTitle == "" || *flagStart == "" || *flagEnd == "" {
 		flag.PrintDefaults()
 		os.Exit(1)
+	}
+	//사용자에게 입력받은 데이터값이 유효한지 체크
+	if !regexTime.MatchString(*flagStart) {
+		log.Fatal("2019-09-09 형식의 문자열이 아닙니다")
+	}
+	if !regexTime.MatchString(*flagEnd) {
+		log.Fatal("2019-09-09 형식의 문자열이 아닙니다")
 	}
 	// declare variables for struct
 	c := Calendar{}
