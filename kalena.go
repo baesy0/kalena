@@ -4,7 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"log"
-	"net/http"
 	"os"
 )
 
@@ -53,10 +52,7 @@ func main() {
 
 		fmt.Println(c)
 	} else if *flagHTTPPort != "" {
-		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-			w.Write([]byte("kalena 1,2,3...31"))
-		})
-		http.ListenAndServe(*flagHTTPPort, nil)
+		webserver(*flagHTTPPort)
 	} else {
 		flag.PrintDefaults()
 		os.Exit(1)
