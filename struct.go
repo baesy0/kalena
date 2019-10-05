@@ -65,7 +65,7 @@ func (s Schedule) CheckError() error {
 		return err
 	}
 	// end가 start 시간보다 큰지 체크하는 부분
-	if !checkTime(startTime, endTime) {
+	if !endTime.After(startTime) {
 		return errors.New("끝시간이 시작시간보다 작습니다")
 	}
 	return nil
