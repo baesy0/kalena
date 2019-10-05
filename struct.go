@@ -7,23 +7,23 @@ import (
 
 // Calendar 자료구조
 type Calendar struct {
-	Layers []Layer
+	Layers []Layer `json:"layers"`
 }
 
 //Layer 자료구조
 type Layer struct {
-	Title     string
-	Color     string //#FF3366
-	Greyscale bool
-	Hidden    bool
-	Schedules []Schedule
+	Title     string     `json:"title"`
+	Color     string     `json:"color"` //#FF3366
+	Greyscale bool       `json:"greyscale"`
+	Hidden    bool       `json:"hidden"`
+	Schedules []Schedule `json:"schedules"`
 }
 
 // Schedule 자료구조
 type Schedule struct {
-	Title string
-	Start string
-	End   string
+	Title string `json:"title"`
+	Start string `json:"start"`
+	End   string `json:"end"`
 }
 
 // CheckError 매소드는 Layer 자료구조에 에러가 있는지 체크한다.

@@ -2,9 +2,10 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"log"
 	"os"
+
+	"gopkg.in/mgo.v2"
 )
 
 var (
@@ -17,6 +18,7 @@ var (
 	flagStart          = flag.String("start", "", "Start time")
 	flagEnd            = flag.String("end", "", "End time")
 	flagLocation       = flag.String("location", "Asia/Seoul", "location name")
+	flagDBIP           = flag.String("dbip", "", "database ip")
 
 	flagHTTPPort = flag.String("http", "", "Web Service Port Number")
 )
@@ -50,7 +52,15 @@ func main() {
 		l.Schedules = append(l.Schedules, s)
 		c.Layers = append(c.Layers, l)
 
-		fmt.Println(c)
+		session, err := mgo.Dial(*flagDBIP)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer session.Close()
+		err = AddCalendar(session, c)
+		if err != nil {
+			log.Print(err)
+		}
 	} else if *flagHTTPPort != "" {
 		webserver(*flagHTTPPort)
 	} else {
