@@ -5,38 +5,14 @@ import (
 	"time"
 )
 
-// Calendar 자료구조
-type Calendar struct {
-	Layers []Layer `json:"layers"`
-}
-
-//Layer 자료구조
-type Layer struct {
-	Title     string     `json:"title"`
-	Color     string     `json:"color"` //#FF3366
-	Greyscale bool       `json:"greyscale"`
-	Hidden    bool       `json:"hidden"`
-	Schedules []Schedule `json:"schedules"`
-}
-
 // Schedule 자료구조
 type Schedule struct {
-	Title string `json:"title"`
-	Start string `json:"start"`
-	End   string `json:"end"`
-}
-
-// CheckError 매소드는 Layer 자료구조에 에러가 있는지 체크한다.
-func (l Layer) CheckError() error {
-	if l.Title == "" {
-		return errors.New("Layer의 Title이 빈 문자열 입니다")
-	}
-	if l.Color != "" {
-		if !regexWebColor.MatchString(l.Color) {
-			return errors.New("#FF0011 형식의 문자열이 아닙니다")
-		}
-	}
-	return nil
+	Title  string `json:"title"`
+	Start  string `json:"start"`
+	End    string `json:"end"`
+	Color  string `json:"color"` //#FF3366
+	Layer  string `json:"layer"`
+	Hidden bool   `json:"hidden"`
 }
 
 // CheckError 매소드는 Schedule 자료구조에 에러가 있는지 체크한다.
@@ -44,6 +20,10 @@ func (s Schedule) CheckError() error {
 	if s.Title == "" {
 		return errors.New("Title 이 빈 문자열 입니다")
 	}
+	if s.Layer == "" {
+		return errors.New("Layer 이름이 빈 문자열 입니다")
+	}
+
 	if s.Start == "" {
 		return errors.New("Start 시간이 빈 문자열 입니다")
 	}
@@ -67,6 +47,11 @@ func (s Schedule) CheckError() error {
 	// end가 start 시간보다 큰지 체크하는 부분
 	if !endTime.After(startTime) {
 		return errors.New("끝시간이 시작시간보다 작습니다")
+	}
+	if s.Color != "" {
+		if !regexWebColor.MatchString(s.Color) {
+			return errors.New("#FF0011 형식의 문자열이 아닙니다")
+		}
 	}
 	return nil
 }
