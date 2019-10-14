@@ -2,10 +2,10 @@ package main
 
 import "net/http"
 
-func webserver(port string) {
+func webserver() {
 	http.HandleFunc("/", handleIndex)
 	http.HandleFunc("/add", handleAdd)
-	http.ListenAndServe(port, nil)
+	http.ListenAndServe(*flagHTTPPort, nil)
 }
 
 func handleIndex(w http.ResponseWriter, r *http.Request) {

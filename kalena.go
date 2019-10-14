@@ -57,7 +57,7 @@ func main() {
 			log.Print(err)
 		}
 	} else if *flagHTTPPort != "" {
-		webserver(*flagHTTPPort)
+		webserver()
 	} else {
 		flag.PrintDefaults()
 		os.Exit(1)
