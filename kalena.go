@@ -9,55 +9,50 @@ import (
 )
 
 var (
-	flagAdd            = flag.Bool("add", false, "Add mode")
-	flagTitle          = flag.String("title", "", "Title")
-	flagLayerTitle     = flag.String("layerTitle", "", "Layer Title")
-	flagLayerColor     = flag.String("layerColor", "", "Layer Color")
-	flagLayerHidden    = flag.Bool("hidden", false, "Layer hidden")
-	flagLayerGreyscale = flag.Bool("greyscale", false, "Layer geyscale")
-	flagStart          = flag.String("start", "", "Start time")
-	flagEnd            = flag.String("end", "", "End time")
-	flagLocation       = flag.String("location", "Asia/Seoul", "location name")
-	flagDBIP           = flag.String("dbip", "", "database ip")
+	flagAdd = flag.Bool("add", false, "Add mode")
 
+	flagTitle  = flag.String("title", "", "Title")
+	flagLayer  = flag.String("layer", "", "Layer Title")
+	flagColor  = flag.String("color", "", "Layer Color")
+	flagHidden = flag.Bool("hidden", false, "Layer hidden")
+
+	flagStart    = flag.String("start", "", "Start time")
+	flagEnd      = flag.String("end", "", "End time")
+	flagLocation = flag.String("location", "Asia/Seoul", "location name")
+
+	flagUser = flag.String("user", "", "username for DB collection")
+
+	flagDBIP     = flag.String("dbip", "", "DB IP")
+	flagDBName   = flag.String("dbname", "kalena", "DB name")
 	flagHTTPPort = flag.String("http", "", "Web Service Port Number")
 )
 
 func main() {
 	flag.Parse()
 	if *flagAdd {
-		c := Calendar{}
-		l := Layer{}
+		if *flagUser == "" {
+			log.Fatal("user 이름이 필요합니다")
+		}
 		s := Schedule{}
-
-		l.Title = *flagLayerTitle
-		l.Color = *flagLayerColor
-		l.Hidden = *flagLayerHidden
-		l.Greyscale = *flagLayerGreyscale
-
+		s.Color = *flagColor
+		s.Hidden = *flagHidden
 		s.Title = *flagTitle
+		s.Layer = *flagLayer
+
 		s.Start = *flagStart
 		s.End = *flagEnd
 
-		// 체크 구문
-		err := l.CheckError()
+		err := s.CheckError()
 		if err != nil {
 			log.Fatal(err)
 		}
-		err = s.CheckError()
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		l.Schedules = append(l.Schedules, s)
-		c.Layers = append(c.Layers, l)
 
 		session, err := mgo.Dial(*flagDBIP)
 		if err != nil {
 			log.Fatal(err)
 		}
 		defer session.Close()
-		err = AddCalendar(session, c)
+		err = AddSchedule(session, s)
 		if err != nil {
 			log.Print(err)
 		}
