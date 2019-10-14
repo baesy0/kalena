@@ -1,6 +1,8 @@
 package main
 
-import "net/http"
+import (
+	"net/http"
+)
 
 func webserver() {
 	http.HandleFunc("/", handleIndex)
