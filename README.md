@@ -10,3 +10,7 @@ $ mongo
 > use kalena
 > db.user1.find()
 ```
+### 전체 데이터 삭제하기
+```
+> db.user1.drop()
+```
