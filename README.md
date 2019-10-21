@@ -14,3 +14,8 @@ $ mongo
 ```
 > db.user1.drop()
 ```
+
+### url로 스케쥴 검색하기
+```
+http://localhost/search?userid=bae&year=2019&month=11&day=21&layer=se
+```
