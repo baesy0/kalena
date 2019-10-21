@@ -9,13 +9,29 @@ import (
 
 func webserver() {
 	http.HandleFunc("/", handleIndex)
+	http.HandleFunc("/search", handleSearch)
 	http.HandleFunc("/add", handleAdd)
 	http.ListenAndServe(*flagHTTPPort, nil)
 }
 
 func handleIndex(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("hello kalena"))
+}
+
+func handleAdd(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("add page"))
+}
+
+// handleSearch
+func handleSearch(w http.ResponseWriter, r *http.Request) {
 	q := r.URL.Query()
 	userID := q.Get("userid")
+	year := q.Get("year")
+	month := q.Get("month")
+	day := q.Get("day")
+	layer := q.Get("layer")
+	
+	log.Println(year, month, day, layer)
 
 	session, err := mgo.Dial(*flagDBIP)
 	if err != nil {
@@ -34,6 +50,3 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func handleAdd(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("add page"))
-}
