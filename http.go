@@ -30,8 +30,9 @@ func handleSearch(w http.ResponseWriter, r *http.Request) {
 	month := q.Get("month")
 	day := q.Get("day")
 	layer := q.Get("layer")
+	sortKey := q.Get("sortkey")
 	
-	log.Println(year, month, day, layer)
+	log.Println(year, month, day, layer, sortKey)
 
 	session, err := mgo.Dial(*flagDBIP)
 	if err != nil {
