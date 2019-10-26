@@ -60,11 +60,6 @@ func main() {
 			log.Print(err)
 		}
 	} else if *flagHTTPPort != "" {
-		vfsTemplate, err := LoadTemplates()
-		if err != nil {
-			log.Fatal(err)
-		}
-		TEMPLATES = vfsTemplate
 		webserver()
 	} else {
 		flag.PrintDefaults()

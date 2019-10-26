@@ -19,9 +19,17 @@ func LoadTemplates() (*template.Template, error) {
 }
 
 func webserver() {
+	// 템플릿 로딩을 위해서 vfs(가상파일시스템)을 로딩합니다.
+	vfsTemplate, err := LoadTemplates()
+	if err != nil {
+		log.Fatal(err)
+	}
+	TEMPLATES = vfsTemplate
+	// 웹주소 설정
 	http.HandleFunc("/", handleIndex)
 	http.HandleFunc("/search", handleSearch)
 	http.HandleFunc("/add", handleAdd)
+	// 웹서버 실행
 	http.ListenAndServe(*flagHTTPPort, nil)
 }
 
@@ -32,6 +40,14 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	/*
+		tmpl, err := template.ParseFiles("assets/template/index.html")
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		tmpl.Execute(w, nil)
+	*/
 }
 
 func handleAdd(w http.ResponseWriter, r *http.Request) {
