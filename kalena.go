@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"html/template"
 	"log"
 	"os"
 
@@ -9,7 +10,9 @@ import (
 )
 
 var (
-	flagAdd = flag.Bool("add", false, "Add mode")
+	// TEMPLATES 는 kalena에서 사용하는 템플릿 글로벌 변수이다.
+	TEMPLATES = template.New("")
+	flagAdd   = flag.Bool("add", false, "Add mode")
 
 	flagTitle  = flag.String("title", "", "Title")
 	flagLayer  = flag.String("layer", "", "Layer Title")
@@ -57,6 +60,11 @@ func main() {
 			log.Print(err)
 		}
 	} else if *flagHTTPPort != "" {
+		vfsTemplate, err := LoadTemplates()
+		if err != nil {
+			log.Fatal(err)
+		}
+		TEMPLATES = vfsTemplate
 		webserver()
 	} else {
 		flag.PrintDefaults()

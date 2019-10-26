@@ -1,11 +1,22 @@
 package main
 
 import (
-	"net/http"
-	"gopkg.in/mgo.v2"
-	"log"
 	"encoding/json"
+	"html/template"
+	"log"
+	"net/http"
+
+	"gopkg.in/mgo.v2"
+
+	"github.com/shurcooL/httpfs/html/vfstemplate"
 )
+
+// LoadTemplates 함수는 템플릿을 로딩합니다.
+func LoadTemplates() (*template.Template, error) {
+	t := template.New("")
+	t, err := vfstemplate.ParseGlob(assets, t, "/template/*.html")
+	return t, err
+}
 
 func webserver() {
 	http.HandleFunc("/", handleIndex)
@@ -15,7 +26,12 @@ func webserver() {
 }
 
 func handleIndex(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("hello kalena"))
+	w.Header().Set("Content-Type", "text/html")
+	err := TEMPLATES.ExecuteTemplate(w, "index", nil)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 }
 
 func handleAdd(w http.ResponseWriter, r *http.Request) {
@@ -31,7 +47,7 @@ func handleSearch(w http.ResponseWriter, r *http.Request) {
 	day := q.Get("day")
 	layer := q.Get("layer")
 	sortKey := q.Get("sortkey")
-	
+
 	log.Println(year, month, day, layer, sortKey)
 
 	session, err := mgo.Dial(*flagDBIP)
@@ -40,7 +56,7 @@ func handleSearch(w http.ResponseWriter, r *http.Request) {
 	}
 	defer session.Close()
 	schedules, err := allSchedules(session, userID)
-	if err != nil{
+	if err != nil {
 		w.Write([]byte(err.Error()))
 		return
 	}
@@ -50,4 +66,3 @@ func handleSearch(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 	}
 }
-
