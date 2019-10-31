@@ -25,6 +25,8 @@ func webserver() {
 		log.Fatal(err)
 	}
 	TEMPLATES = vfsTemplate
+	// assets 설정
+	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(assets)))
 	// 웹주소 설정
 	http.HandleFunc("/", handleIndex)
 	http.HandleFunc("/search", handleSearch)
