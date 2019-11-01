@@ -50,7 +50,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	if userID == "75mmstudio" {
 		rcp.CSS = userID + ".css"
 	}
-	err := TEMPLATES.ExecuteTemplate(w, "index", nil)
+	err := TEMPLATES.ExecuteTemplate(w, "index", rcp)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
