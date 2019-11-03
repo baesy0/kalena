@@ -37,19 +37,23 @@ func webserver() {
 
 func handleIndex(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
-	err := TEMPLATES.ExecuteTemplate(w, "index", nil)
+	type recipe struct {
+		Theme string
+	}
+	rcp := recipe{
+		Theme: "default.css",
+	}
+	q := r.URL.Query()
+	userID := q.Get("userid")
+	// 75mm studio 일때만 css 파일을 변경한다. 이 구조는 개발 초기에만 사용한다.
+	if userID == "75mmstudio" {
+		rcp.Theme = "75mmstudio.css"
+	}
+	err := TEMPLATES.ExecuteTemplate(w, "index", rcp)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	/*
-		tmpl, err := template.ParseFiles("assets/template/index.html")
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-		tmpl.Execute(w, nil)
-	*/
 }
 
 func handleAdd(w http.ResponseWriter, r *http.Request) {
