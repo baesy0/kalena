@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"html/template"
 	"log"
 	"os"
@@ -60,6 +61,11 @@ func main() {
 			log.Print(err)
 		}
 	} else if *flagHTTPPort != "" {
+		ip, err := serviceIP()
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Printf("Service start: http://%s\n", ip)
 		webserver()
 	} else {
 		flag.PrintDefaults()
