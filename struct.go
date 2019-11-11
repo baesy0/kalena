@@ -7,12 +7,12 @@ import (
 
 // Schedule 자료구조
 type Schedule struct {
-	Title  string `json:"title"`  // 스케쥴의 title
-	Start  string `json:"start"`  // 스케쥴 시작 시간
-	End    string `json:"end"`    // 스케쥴 끝나는 시간
-	Color  string `json:"color"`  //#FF3366, #ff3366, #f36, #F36
-	Layer  string `json:"layer"`  // 스케쥴이 속한 레이어의 이름
-	Hidden bool   `json:"hidden"` // 스케쥴 숨김 속성
+	Title  string `bson:"title" json:"title"`   // 스케쥴의 title
+	Start  string `bson:"start" json:"start"`   // 스케쥴 시작 시간
+	End    string `bson:"end" json:"end"`       // 스케쥴 끝나는 시간
+	Color  string `bson:"color" json:"color"`   //#FF3366, #ff3366, #f36, #F36
+	Layer  string `bson:"layer" json:"layer"`   // 스케쥴이 속한 레이어의 이름
+	Hidden bool   `bson:"hidden" json:"hidden"` // 스케쥴 숨김 속성
 }
 
 // CheckError 매소드는 Schedule 자료구조에 에러가 있는지 체크한다.
