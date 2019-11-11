@@ -69,6 +69,10 @@ func handleSearch(w http.ResponseWriter, r *http.Request) {
 	day := q.Get("day")
 	layer := q.Get("layer")
 	sortKey := q.Get("sortkey")
+	if userID == "" {
+		w.Write([]byte("URL에 userid를 입력해주세요"))
+		return
+	}
 
 	log.Println(year, month, day, layer, sortKey)
 
