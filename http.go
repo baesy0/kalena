@@ -38,7 +38,7 @@ func webserver() {
 func handleIndex(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 	type recipe struct {
-		Theme string
+		Theme string `bson:"theme" json:"theme"`
 	}
 	rcp := recipe{
 		Theme: "default.css",
