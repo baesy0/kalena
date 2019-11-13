@@ -9,3 +9,5 @@ kalena -add -title data2 -layer se -start 2019-11-05T22:08:50+09:00 -end 2019-11
 kalena -add -title park -layer se -start 2019-10-21T14:10:00+09:00 -end 2019-10-21T15:00:00+09:00 -user bae
 kalena -add -title woong -layer se -start 2019-10-16T20:30:00+09:00 -end 2019-10-16T22:30:00+09:00 -user bae
 
+# RestAPI
+curl -d "collection=woong&title=todo&layer=study&start=2019-10-10T10:10:10%2B09:00&end=2019-10-11T10:10:10%2B09:00" http://127.0.0.1/api/add

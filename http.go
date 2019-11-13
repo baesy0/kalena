@@ -31,6 +31,8 @@ func webserver() {
 	http.HandleFunc("/", handleIndex)
 	http.HandleFunc("/search", handleSearch)
 	http.HandleFunc("/add", handleAdd)
+	// RestAPI
+	http.HandleFunc("/api/add", handleAPIAdd)
 	// 웹서버 실행
 	http.ListenAndServe(*flagHTTPPort, nil)
 }
