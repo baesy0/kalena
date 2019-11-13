@@ -7,7 +7,6 @@ import (
 
 // Schedule 자료구조
 type Schedule struct {
-<<<<<<< HEAD
 	Collection string `json:"collection"` // 사용자,장비명,회의실 이름이 될 수 있다
 	Title      string `json:"title"`      // 스케쥴의 title
 	Start      string `json:"start"`      // 스케쥴 시작 시간
@@ -15,14 +14,6 @@ type Schedule struct {
 	Color      string `json:"color"`      //#FF3366, #ff3366, #f36, #F36
 	Layer      string `json:"layer"`      // 스케쥴이 속한 레이어의 이름
 	Hidden     bool   `json:"hidden"`     // 스케쥴 숨김 속성
-=======
-	Title  string `bson:"title" json:"title"`   // 스케쥴의 title
-	Start  string `bson:"start" json:"start"`   // 스케쥴 시작 시간
-	End    string `bson:"end" json:"end"`       // 스케쥴 끝나는 시간
-	Color  string `bson:"color" json:"color"`   //#FF3366, #ff3366, #f36, #F36
-	Layer  string `bson:"layer" json:"layer"`   // 스케쥴이 속한 레이어의 이름
-	Hidden bool   `bson:"hidden" json:"hidden"` // 스케쥴 숨김 속성
->>>>>>> 193f26c7aa95ee5b0e6b66b9e9a62532611e53c0
 }
 
 // CheckError 매소드는 Schedule 자료구조에 에러가 있는지 체크한다.
