@@ -70,7 +70,7 @@ func handleSearch(w http.ResponseWriter, r *http.Request) {
 	layer := q.Get("layer")
 	sortKey := q.Get("sortkey")
 	if userID == "" {
-		w.Write([]byte("URL에 userid를 입력해주세요"))
+		http.Error(w, "URL에 userid를 입력해주세요", http.StatusBadRequest)
 		return
 	}
 
