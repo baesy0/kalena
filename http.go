@@ -34,7 +34,10 @@ func webserver() {
 	// RestAPI
 	http.HandleFunc("/api/add", handleAPIAdd)
 	// 웹서버 실행
-	http.ListenAndServe(*flagHTTPPort, nil)
+	err = http.ListenAndServe(*flagHTTPPort, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func handleIndex(w http.ResponseWriter, r *http.Request) {
