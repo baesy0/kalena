@@ -1,25 +1,29 @@
-.cell-top-left {
+.cell {
     height: 100px;
+}
+
+.cell:hover {
+    background-color: rgba(255, 189, 46, 0.692);
+}
+
+.cell-top-left {
     border-top: 1px solid #000000;
     border-left: 1px solid #000000;
 }
 
 .cell-right {
-    height: 100px;
     border-top: 1px solid #000000;
     border-left: 1px solid #000000;
     border-right: 1px solid #000000;
 }
 
 .cell-bottom {
-    height: 100px;
     border-top: 1px solid #000000;
     border-left: 1px solid #000000;
     border-bottom: 1px solid #000000;
 }
 
 .cell-right-bottom {
-    height: 100px;
     border-top: 1px solid #000000;
     border-left: 1px solid #000000;
     border-right: 1px solid #000000;
