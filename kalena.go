@@ -24,7 +24,7 @@ var (
 	flagEnd      = flag.String("end", "", "End time")
 	flagLocation = flag.String("location", "Asia/Seoul", "location name")
 
-	flagUser = flag.String("user", "", "username for DB collection")
+	flagCollection = flag.String("collection", "", "username for DB collection")
 
 	flagDBIP     = flag.String("dbip", "", "DB IP")
 	flagDBName   = flag.String("dbname", "kalena", "DB name")
@@ -34,10 +34,8 @@ var (
 func main() {
 	flag.Parse()
 	if *flagAdd {
-		if *flagUser == "" {
-			log.Fatal("user 이름이 필요합니다")
-		}
 		s := Schedule{}
+		s.Collection = *flagCollection
 		s.Color = *flagColor
 		s.Hidden = *flagHidden
 		s.Title = *flagTitle
