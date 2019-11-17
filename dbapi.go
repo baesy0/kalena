@@ -55,7 +55,7 @@ func SearchMonth(session *mgo.Session, Collection, year, month string) ([]Schedu
 		if err != nil {
 			return []Schedule{}, err
 		}
-		monthEnd, err := time.Parse("2006-01-02T15:04:05-07:00", fmt.Sprintf("%s-%s-30T00:00:00+09:00", year, month))
+		monthEnd, err := time.Parse("2006-01-02T15:04:05-07:00", fmt.Sprintf("%s-%s-30T23:59:59+09:00", year, month))
 		if err != nil {
 			return []Schedule{}, err
 		}
