@@ -65,7 +65,7 @@ func main() {
 			log.Fatal(err)
 		}
 		defer session.Close()
-		testdata, err := SearchMonth(session, "bae", "2019", "11")
+		testdata, err := SearchMonth(session, *flagCollection, "2019", "11")
 		if err != nil {
 			log.Println(err)
 		}
