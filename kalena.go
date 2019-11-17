@@ -12,8 +12,9 @@ import (
 
 var (
 	// TEMPLATES 는 kalena에서 사용하는 템플릿 글로벌 변수이다.
-	TEMPLATES = template.New("")
-	flagAdd   = flag.Bool("add", false, "Add mode")
+	TEMPLATES  = template.New("")
+	flagAdd    = flag.Bool("add", false, "Add mode")
+	flagSearch = flag.Bool("search", false, "Search mode")
 
 	flagTitle  = flag.String("title", "", "Title")
 	flagLayer  = flag.String("layer", "", "Layer Title")
@@ -58,6 +59,18 @@ func main() {
 		if err != nil {
 			log.Print(err)
 		}
+	} else if *flagSearch {
+		session, err := mgo.Dial(*flagDBIP)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer session.Close()
+		testdata, err := SearchMonth(session, "bae", "2019", "11")
+		if err != nil {
+			log.Println(err)
+		}
+		fmt.Println(testdata)
+		os.Exit(1)
 	} else if *flagHTTPPort != "" {
 		ip, err := serviceIP()
 		if err != nil {
