@@ -10,13 +10,13 @@ import (
 // Schedule 자료구조
 type Schedule struct {
 	ID         bson.ObjectId `json:"id" bson:"_id,omitempty"`
-	Collection string        `json:"collection"` // 사용자,장비명,회의실 이름이 될 수 있다
-	Title      string        `json:"title"`      // 스케쥴의 title
-	Start      string        `json:"start"`      // 스케쥴 시작 시간
-	End        string        `json:"end"`        // 스케쥴 끝나는 시간
-	Color      string        `json:"color"`      //#FF3366, #ff3366, #f36, #F36
-	Layer      string        `json:"layer"`      // 스케쥴이 속한 레이어의 이름
-	Hidden     bool          `json:"hidden"`     // 스케쥴 숨김 속성
+	Collection string        `json:"collection" bson:"collection"` // 사용자,장비명,회의실 이름이 될 수 있다
+	Title      string        `json:"title" bson:"title"`           // 스케쥴의 title
+	Start      string        `json:"start" bson:"start"`           // 스케쥴 시작 시간
+	End        string        `json:"end" bson:"end"`               // 스케쥴 끝나는 시간
+	Color      string        `json:"color" bson:"color"`           //#FF3366, #ff3366, #f36, #F36
+	Layer      string        `json:"layer" bson:"layer"`           // 스케쥴이 속한 레이어의 이름
+	Hidden     bool          `json:"hidden" bson:"hidden"`         // 스케쥴 숨김 속성
 }
 
 // CheckError 매소드는 Schedule 자료구조에 에러가 있는지 체크한다.
