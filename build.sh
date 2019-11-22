@@ -3,9 +3,9 @@ APP="kalena"
 
 go run assets/asset_generate.go
 
-GOOS=linux GOARCH=amd64 go build -o ./bin/linux/${APP} kalena.go struct.go http.go dbapi.go check.go assets_vfsdata.go network.go http_restapi.go
-GOOS=darwin GOARCH=amd64 go build -o ./bin/darwin/${APP} kalena.go struct.go http.go dbapi.go check.go assets_vfsdata.go network.go http_restapi.go
-GOOS=windows GOARCH=amd64 go build -o ./bin/windows/${APP} kalena.go struct.go http.go dbapi.go check.go assets_vfsdata.go network.go http_restapi.go
+GOOS=linux GOARCH=amd64 go build -o ./bin/linux/${APP} kalena.go struct.go http.go dbapi.go check.go assets_vfsdata.go network.go http_restapi.go timefunc.go
+GOOS=darwin GOARCH=amd64 go build -o ./bin/darwin/${APP} kalena.go struct.go http.go dbapi.go check.go assets_vfsdata.go network.go http_restapi.go timefunc.go
+GOOS=windows GOARCH=amd64 go build -o ./bin/windows/${APP} kalena.go struct.go http.go dbapi.go check.go assets_vfsdata.go network.go http_restapi.go timefunc.go
 
 # Github Release에 업로드 하기위해 압축
 cd ./bin/linux/ && tar -zcvf ../${APP}_linux_x86-64.tgz . && cd -
