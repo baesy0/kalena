@@ -39,17 +39,11 @@ func (s Schedule) CheckError() error {
 	if s.End == "" {
 		return errors.New("End 시간이 빈 문자열 입니다")
 	}
-	if !regexRFC3339Time.MatchString(s.Start) {
-		return errors.New("Start 시간이 2019-09-09T14:43:34+09:00 형식의 문자열이 아닙니다")
-	}
-	if !regexRFC3339Time.MatchString(s.End) {
-		return errors.New("End 시간이 2019-09-09T14:43:34+09:00 형식의 문자열이 아닙니다")
-	}
-	startTime, err := time.Parse("2006-01-02T15:04:05-07:00", s.Start)
+	startTime, err := time.Parse(time.RFC3339, s.Start)
 	if err != nil {
 		return err
 	}
-	endTime, err := time.Parse("2006-01-02T15:04:05-07:00", s.End)
+	endTime, err := time.Parse(time.RFC3339, s.End)
 	if err != nil {
 		return err
 	}
@@ -62,5 +56,35 @@ func (s Schedule) CheckError() error {
 			return errors.New("#FF0011 형식의 문자열이 아닙니다")
 		}
 	}
+	return nil
+}
+
+// ToUTC 메소드는 스케줄을 받아서 내부 시간을 UTC로 바꾼다.
+func (s *Schedule) ToUTC() error {
+	startTime, err := time.Parse(time.RFC3339, s.Start)
+	if err != nil {
+		return err
+	}
+	endTime, err := time.Parse(time.RFC3339, s.End)
+	if err != nil {
+		return err
+	}
+	s.Start = startTime.UTC().Format(time.RFC3339)
+	s.End = endTime.UTC().Format(time.RFC3339)
+	return nil
+}
+
+// SetTimeNum 메소드는 스케줄에 엑셀시간을 셋팅한다.
+func (s *Schedule) SetTimeNum() error {
+	startNum, err := TimeToNum(s.Start)
+	if err != nil {
+		return err
+	}
+	s.Startnum = startNum
+	endNum, err := TimeToNum(s.End)
+	if err != nil {
+		return err
+	}
+	s.Endnum = endNum
 	return nil
 }

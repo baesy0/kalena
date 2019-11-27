@@ -10,9 +10,19 @@ import (
 
 // AddSchedule 함수는 DB에 Schedule 을 추가한다.
 func AddSchedule(session *mgo.Session, s Schedule) error {
+	// DB에 추가되는 모든 시간은 UTC 시간을 가진다.
+	err := s.ToUTC()
+	if err != nil {
+		return err
+	}
+	// 데이터를 넣기전 Excel시간도 셋팅한다.
+	err = s.SetTimeNum()
+	if err != nil {
+		return err
+	}
 	session.SetMode(mgo.Monotonic, true)
 	c := session.DB(*flagDBName).C(s.Collection)
-	err := c.Insert(s)
+	err = c.Insert(s)
 	if err != nil {
 		return err
 	}
