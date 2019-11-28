@@ -1,7 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"time"
+
+	"github.com/jinzhu/now"
 )
 
 // TimeToNum 함수는 시간문자를 받아서 1899년 12월 30일부터 몇번째 날인지 반환한다.
@@ -16,4 +19,22 @@ func TimeToNum(str string) (int64, error) {
 	}
 	initTime := time.Date(1899, time.December, 30, 0, 0, 0, 0, time.UTC)
 	return (int64(input.Sub(initTime) / (time.Hour * 24))), nil
+}
+
+// EndOfMonth 는 주어진 연,월을 이용해 해당 달의 마지막 날을 구한다.
+func EndOfMonth(year, month int) (time.Time, error) {
+	t, err := time.Parse("2006-01-02", fmt.Sprintf("%04d-%02d-15", year, month))
+	if err != nil {
+		return time.Now().UTC(), err
+	}
+	return now.With(t.UTC()).EndOfMonth(), nil
+}
+
+// BeginningOfMonth 는 주어진 연,월을 이용해 해당 달의 첫 날을 구한다.
+func BeginningOfMonth(year, month int) (time.Time, error) {
+	t, err := time.Parse("2006-01-02", fmt.Sprintf("%04d-%02d-15", year, month))
+	if err != nil {
+		return time.Now().UTC(), err
+	}
+	return now.With(t.UTC()).BeginningOfMonth(), nil
 }
