@@ -38,3 +38,22 @@ func BeginningOfMonth(year, month int) (time.Time, error) {
 	}
 	return now.With(t.UTC()).BeginningOfMonth(), nil
 }
+
+// genDate는 연도와 월을 받아서 해당 달의 요일만큼 offset한 후 배열에 날짜를 채우는 함수이다.
+func genDate(year, month int) ([42]int, error) {
+	var l [42]int
+	start, err := BeginningOfMonth(year, month)
+	if err != nil {
+		return l, err
+	}
+	end, err := EndOfMonth(year, month)
+	if err != nil {
+		return l, err
+	}
+	offset := int(start.Weekday())
+	_, _, e := end.Date()
+	for i := offset; i < e+offset; i++ {
+		l[i] = i - offset + 1
+	}
+	return l, nil
+}
