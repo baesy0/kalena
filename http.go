@@ -5,6 +5,8 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"strconv"
+	"time"
 
 	"gopkg.in/mgo.v2"
 
@@ -43,18 +45,37 @@ func webserver() {
 func handleIndex(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 	type recipe struct {
-		Theme string `bson:"theme" json:"theme"`
+		Theme string  `bson:"theme" json:"theme"`
+		Dates [42]int `bson:"dates" json:"dates"`
+		Today int     `bson:"today" json:"today"`
 	}
 	rcp := recipe{
 		Theme: "default.css",
 	}
+	_, _, rcp.Today = time.Now().Date() // 오늘에 해당하는 year, month는 추후 다시 사용한다
 	q := r.URL.Query()
 	userID := q.Get("userid")
+	year, err := strconv.Atoi(q.Get("year"))
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	month, err := strconv.Atoi(q.Get("month"))
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
 	// 75mm studio 일때만 css 파일을 변경한다. 이 구조는 개발 초기에만 사용한다.
 	if userID == "75mmstudio" {
 		rcp.Theme = "75mmstudio.css"
 	}
-	err := TEMPLATES.ExecuteTemplate(w, "index", rcp)
+	rcp.Dates, err = genDate(year, month)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	err = TEMPLATES.ExecuteTemplate(w, "index", rcp)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
