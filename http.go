@@ -44,26 +44,30 @@ func webserver() {
 
 func handleIndex(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
+	type Today struct {
+		Year  int        `bson:"year" json:"year"`
+		Month time.Month `bson:"month" json:"month"` // time.Month로 받는게 좋을까 int로 받는게 좋을까
+		Date  int        `bson:"date" json:"date"`
+	}
 	type recipe struct {
 		Theme string  `bson:"theme" json:"theme"`
 		Dates [42]int `bson:"dates" json:"dates"`
-		Today int     `bson:"today" json:"today"`
+		Today `bson:"today" json:"today"`
 	}
 	rcp := recipe{
 		Theme: "default.css",
 	}
-	_, _, rcp.Today = time.Now().Date() // 오늘에 해당하는 year, month는 추후 다시 사용한다
+	rcp.Today.Year, rcp.Today.Month, rcp.Today.Date = time.Now().Date() // 오늘에 해당하는 year, month는 추후 다시 사용한다
 	q := r.URL.Query()
 	userID := q.Get("userid")
 	year, err := strconv.Atoi(q.Get("year"))
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
+		year, _, _ = time.Now().Date() // 입력이 제대로 안되면 올해 연도를 넣는다.
 	}
 	month, err := strconv.Atoi(q.Get("month"))
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
+		_, m, _ := time.Now().Date() // 입력이 제대로 안되면 이번 달을 넣는다
+		month = int(m)
 	}
 
 	// 75mm studio 일때만 css 파일을 변경한다. 이 구조는 개발 초기에만 사용한다.
