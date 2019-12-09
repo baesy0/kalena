@@ -29,6 +29,17 @@ func AddSchedule(session *mgo.Session, s Schedule) error {
 	return nil
 }
 
+// RmSchedule 함수는 DB에서 id가 일치하는 Schedule을 삭제한다.
+func RmSchedule(session *mgo.Session, Collection string, id bson.ObjectId) error {
+	session.SetMode(mgo.Monotonic, true)
+	c := session.DB(*flagDBName).C(Collection)
+	err := c.RemoveId(id)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 // allSchedules는 DB에서 전체 스케쥴 정보를 가져오는 함수입니다.
 func allSchedules(session *mgo.Session, Collection string) ([]Schedule, error) {
 	session.SetMode(mgo.Monotonic, true)
