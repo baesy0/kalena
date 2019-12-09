@@ -21,4 +21,4 @@ kalena -add -collection bae -title woong -layer se -start 2019-11-16T20:30:00+09
 
 
 # RestAPI
-curl -d "collection=woong&title=todo&layer=study&start=2019-10-10T10:10:10%2B09:00&end=2019-10-11T10:10:10%2B09:00" http://127.0.0.1/api/add
+curl -X POST -d "collection=woong&title=todo&layer=study&start=2019-10-10T10:10:10%2B09:00&end=2019-10-11T10:10:10%2B09:00" http://127.0.0.1/api/schedule
