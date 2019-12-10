@@ -62,11 +62,11 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	userID := q.Get("userid")
 	year, err := strconv.Atoi(q.Get("year"))
 	if err != nil {
-		year, _, _ = time.Now().Date() // 입력이 제대로 안되면 올해 연도를 넣는다.
+		year = rcp.Today.Year // 입력이 제대로 안되면 올해 연도를 넣는다.
 	}
 	month, err := strconv.Atoi(q.Get("month"))
 	if err != nil {
-		_, m, _ := time.Now().Date() // 입력이 제대로 안되면 이번 달을 넣는다
+		m := rcp.Today.Month // 입력이 제대로 안되면 이번 달을 넣는다
 		month = int(m)
 	}
 
