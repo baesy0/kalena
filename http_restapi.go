@@ -7,7 +7,7 @@ import (
 	"gopkg.in/mgo.v2"
 )
 
-func handleAPIAdd(w http.ResponseWriter, r *http.Request) {
+func handleAPISchedule(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		http.Error(w, "Post Only", http.StatusMethodNotAllowed)
 		return
