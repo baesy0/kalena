@@ -34,7 +34,7 @@ func webserver() {
 	http.HandleFunc("/search", handleSearch)
 	http.HandleFunc("/add", handleAdd)
 	// RestAPI
-	http.HandleFunc("/api/schedule", handleAPIAdd)
+	http.HandleFunc("/api/schedule", handleAPISchedule)
 	// 웹서버 실행
 	err = http.ListenAndServe(*flagHTTPPort, nil)
 	if err != nil {
