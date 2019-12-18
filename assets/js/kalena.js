@@ -29,8 +29,7 @@ document.getElementById("calendar").onmouseup = function (event) {
 document.getElementById("calendar").onmousemove = function () {
     if (render) {
         e = event || window.event;
-        currentID = parseInt((e.target || e.srcElement).id, 10);
-        let i;
+        let currentID = parseInt((e.target || e.srcElement).id, 10);
         let start = startID
         let end = currentID
         if (start > end) {
@@ -38,11 +37,11 @@ document.getElementById("calendar").onmousemove = function () {
             end = startID
         }
         // 기존에 칠해진 색상을 제거한다.
-        for (i = 0; i < 42; i++) { 
+        for (let i = 0; i < 42; i++) { 
             document.getElementById(i).style.backgroundColor = "#ffffff";
         }
         // 색상을 채운다.
-        for (i = start; i < end+1; i++) {
+        for (let i = start; i < end+1; i++) {
             document.getElementById(i).style.backgroundColor = "#ffe091";
         }
     }
