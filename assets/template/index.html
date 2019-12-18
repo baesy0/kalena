@@ -2,13 +2,12 @@
 {{template "head" .}}
 
 <body>
-    <div class="text-center">
-        hello kalena
-    </div>
-
+    {{template "modal" .}}
     {{template "calendar" .}}
     {{template "footer"}}
 </body>
+    <script src="/assets/js/jquery-3.1.1.min.js"></script>
+    <script src="/assets/bootstrap-4/js/bootstrap.min.js"></script>
     <script src="/assets/js/kalena.js"></script>
 </html>
 {{end}}

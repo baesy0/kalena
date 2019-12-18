@@ -53,7 +53,7 @@ func genDate(year, month int) ([42]int, error) {
 	offset := int(start.Weekday())
 	_, _, e := end.Date()
 	for i := offset; i < e+offset; i++ {
-		l[i] = i - offset + 1
+		l[i] = i + 1 - offset
 	}
 	return l, nil
 }
