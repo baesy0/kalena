@@ -2,6 +2,8 @@
 ![travisCI](https://secure.travis-ci.org/lazypic/kalena.png)
 [![Go Report Card](https://goreportcard.com/badge/github.com/lazypic/kalena)](https://goreportcard.com/report/github.com/lazypic/kalena)
 
+Kalena is calendar web application based on opensource.
+It can be implemented in pipeline for contents creation
 콘텐츠 제작 파이프라인에 활용할 수 있는 오픈소스 달력 웹어플리케이션
 
 
