@@ -6,8 +6,7 @@ document.getElementById("calendar").onmousedown = function (event) {
     // 배경색을 초기화 한다.
     startID = 0;
     endID = 0;
-    let i;
-    for (i = 0; i < 42; i++) { 
+    for (let i = 0; i < 42; i++) { 
         document.getElementById(i).style.backgroundColor = "#ffffff";
     }
     // 시작점의 배경을 칠한다.
@@ -29,11 +28,11 @@ document.getElementById("calendar").onmouseup = function (event) {
 document.getElementById("calendar").onmousemove = function () {
     if (render) {
         e = event || window.event;
-        let currentID = parseInt((e.target || e.srcElement).id, 10);
+        let cur = parseInt((e.target || e.srcElement).id, 10);
         let start = startID
-        let end = currentID
+        let end = cur
         if (start > end) {
-            start = currentID
+            start = cur
             end = startID
         }
         // 기존에 칠해진 색상을 제거한다.
