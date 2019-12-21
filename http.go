@@ -90,9 +90,9 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	switch month {
 	case 1:
 		rcp.BeforeMonth = 12
-		rcp.AfterMonth = 2
+		rcp.AfterMonth = month + 1
 	case 12:
-		rcp.BeforeMonth = 11
+		rcp.BeforeMonth = month - 1
 		rcp.AfterMonth = 1
 	default:
 		rcp.BeforeMonth = month - 1
