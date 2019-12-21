@@ -45,9 +45,9 @@ func webserver() {
 func handleIndex(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 	type Today struct {
-		Year  int        `bson:"year" json:"year"`
-		Month time.Month `bson:"month" json:"month"` // time.Month로 받는게 좋을까 int로 받는게 좋을까
-		Date  int        `bson:"date" json:"date"`
+		Year  int `bson:"year" json:"year"`
+		Month int `bson:"month" json:"month"`
+		Date  int `bson:"date" json:"date"`
 	}
 	type recipe struct {
 		Theme       string  `bson:"theme" json:"theme"`
@@ -63,34 +63,36 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	rcp := recipe{
 		Theme: "default.css",
 	}
-	rcp.Today.Year, rcp.Today.Month, rcp.Today.Date = time.Now().Date() // 오늘에 해당하는 year, month는 추후 다시 사용한다
+	y, m, d := time.Now().Date()
+	rcp.Today.Year = y
+	rcp.Today.Month = int(m)
+	rcp.Today.Date = d
 	q := r.URL.Query()
 	userID := q.Get("userid")
 	month, err := strconv.Atoi(q.Get("month"))
 	if err != nil {
 		m := rcp.Today.Month // 입력이 제대로 안되면 이번 달을 넣는다
-		month = int(m)
-		rcp.QueryMonth = month
-		switch month {
+		rcp.QueryMonth = m
+		switch m {
 		case 1:
 			rcp.BeforeMonth = 12
-			rcp.AfterMonth = month + 1
+			rcp.AfterMonth = m + 1
 		case 12:
-			rcp.BeforeMonth = month - 1
+			rcp.BeforeMonth = m - 1
 			rcp.AfterMonth = 1
 		default:
-			rcp.BeforeMonth = month - 1
-			rcp.AfterMonth = month + 1
+			rcp.BeforeMonth = m - 1
+			rcp.AfterMonth = m + 1
 		}
-
+		month = m
 	}
 	rcp.QueryMonth = month
 	switch month {
 	case 1:
 		rcp.BeforeMonth = 12
-		rcp.AfterMonth = month + 1
+		rcp.AfterMonth = 2
 	case 12:
-		rcp.BeforeMonth = month - 1
+		rcp.BeforeMonth = 11
 		rcp.AfterMonth = 1
 	default:
 		rcp.BeforeMonth = month - 1
@@ -98,19 +100,20 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	}
 	year, err := strconv.Atoi(q.Get("year"))
 	if err != nil {
-		year = rcp.Today.Year // 입력이 제대로 안되면 올해 연도를 넣는다.
-		rcp.QueryYear = year
+		y = rcp.Today.Year // 입력이 제대로 안되면 올해 연도를 넣는다.
+		rcp.QueryYear = y
 		switch month {
 		case 1:
-			rcp.BeforeYear = year - 1
-			rcp.AfterYear = year
+			rcp.BeforeYear = y - 1
+			rcp.AfterYear = y
 		case 12:
-			rcp.BeforeYear = year
-			rcp.AfterYear = year + 1
+			rcp.BeforeYear = y
+			rcp.AfterYear = y + 1
 		default:
-			rcp.BeforeYear = year
-			rcp.AfterYear = year
+			rcp.BeforeYear = y
+			rcp.AfterYear = y
 		}
+		year = y
 	}
 	rcp.QueryYear = year
 	switch month {
@@ -124,7 +127,6 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 		rcp.BeforeYear = year
 		rcp.AfterYear = year
 	}
-
 	// 75mm studio 일때만 css 파일을 변경한다. 이 구조는 개발 초기에만 사용한다.
 	if userID == "75mmstudio" {
 		rcp.Theme = "75mmstudio.css"
