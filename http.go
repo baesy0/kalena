@@ -50,9 +50,15 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 		Date  int        `bson:"date" json:"date"`
 	}
 	type recipe struct {
-		Theme string  `bson:"theme" json:"theme"`
-		Dates [42]int `bson:"dates" json:"dates"`
-		Today `bson:"today" json:"today"`
+		Theme       string  `bson:"theme" json:"theme"`
+		Dates       [42]int `bson:"dates" json:"dates"`
+		Today       `bson:"today" json:"today"`
+		QueryYear   int `bson:"queryyear" json:"queryyear"`
+		QueryMonth  int `bson:"querymonth" json:"querymonth"`
+		BeforeYear  int `bson:"beforeyear" json:"beforeyear"`
+		AfterYear   int `bson:"afteryear" json:"afteryear"`
+		BeforeMonth int `bson:"beforemonth" json:"beforemonth"`
+		AfterMonth  int `bson:"aftermonth" json:"aftermonth"`
 	}
 	rcp := recipe{
 		Theme: "default.css",
@@ -60,14 +66,63 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	rcp.Today.Year, rcp.Today.Month, rcp.Today.Date = time.Now().Date() // 오늘에 해당하는 year, month는 추후 다시 사용한다
 	q := r.URL.Query()
 	userID := q.Get("userid")
-	year, err := strconv.Atoi(q.Get("year"))
-	if err != nil {
-		year = rcp.Today.Year // 입력이 제대로 안되면 올해 연도를 넣는다.
-	}
 	month, err := strconv.Atoi(q.Get("month"))
 	if err != nil {
 		m := rcp.Today.Month // 입력이 제대로 안되면 이번 달을 넣는다
 		month = int(m)
+		rcp.QueryMonth = month
+		switch month {
+		case 1:
+			rcp.BeforeMonth = 12
+			rcp.AfterMonth = month + 1
+		case 12:
+			rcp.BeforeMonth = month - 1
+			rcp.AfterMonth = 1
+		default:
+			rcp.BeforeMonth = month - 1
+			rcp.AfterMonth = month + 1
+		}
+
+	}
+	rcp.QueryMonth = month
+	switch month {
+	case 1:
+		rcp.BeforeMonth = 12
+		rcp.AfterMonth = month + 1
+	case 12:
+		rcp.BeforeMonth = month - 1
+		rcp.AfterMonth = 1
+	default:
+		rcp.BeforeMonth = month - 1
+		rcp.AfterMonth = month + 1
+	}
+	year, err := strconv.Atoi(q.Get("year"))
+	if err != nil {
+		year = rcp.Today.Year // 입력이 제대로 안되면 올해 연도를 넣는다.
+		rcp.QueryYear = year
+		switch month {
+		case 1:
+			rcp.BeforeYear = year - 1
+			rcp.AfterYear = year
+		case 12:
+			rcp.BeforeYear = year
+			rcp.AfterYear = year + 1
+		default:
+			rcp.BeforeYear = year
+			rcp.AfterYear = year
+		}
+	}
+	rcp.QueryYear = year
+	switch month {
+	case 1:
+		rcp.BeforeYear = year - 1
+		rcp.AfterYear = year
+	case 12:
+		rcp.BeforeYear = year
+		rcp.AfterYear = year + 1
+	default:
+		rcp.BeforeYear = year
+		rcp.AfterYear = year
 	}
 
 	// 75mm studio 일때만 css 파일을 변경한다. 이 구조는 개발 초기에만 사용한다.

@@ -1,6 +1,21 @@
 {{define "calendar"}}
-<div class="test-button text-center">
-    <span class="btn btn-sm btn-dark m-2" data-toggle="modal" data-target="#addSchedule">+</span>
+<div class="container mt-3 mb-3">
+    <div class="row">
+        <div class="col p-0">
+            <div class="btn-group" role="group" aria-label="move">
+                <a href="/?year={{.BeforeYear}}&month={{.BeforeMonth}}" class="btn btn-sm btn-outline-dark"><</a>
+                <a href="/?year={{.AfterYear}}&month={{.AfterMonth}}" class="btn btn-sm btn-outline-dark">></a>
+                <a href="/?year={{.Today.Year}}&month={{.Today.Month}}" class="btn btn-sm btn-outline-dark">Today</a>
+            </div>
+        </div>
+        <div class="col p-0 text-center">
+            <span class="h4">{{.QueryMonth}}, {{.QueryYear}}</span>
+        </div>
+        <div class="col p-0">
+            <span class="float-right btn btn-sm btn-outline-dark" data-toggle="modal" data-target="#addSchedule">+</span>
+        </div>
+        
+    </div>
 </div>
 
 <div id="calendar" class="container noselect">
