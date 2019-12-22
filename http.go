@@ -50,15 +50,15 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 		Date  int `bson:"date" json:"date"`
 	}
 	type recipe struct {
-		Theme       string  `bson:"theme" json:"theme"`
-		Dates       [42]int `bson:"dates" json:"dates"`
-		Today       `bson:"today" json:"today"`
-		QueryYear   int `bson:"queryyear" json:"queryyear"`
-		QueryMonth  int `bson:"querymonth" json:"querymonth"`
-		BeforeYear  int `bson:"beforeyear" json:"beforeyear"`
-		AfterYear   int `bson:"afteryear" json:"afteryear"`
-		BeforeMonth int `bson:"beforemonth" json:"beforemonth"`
-		AfterMonth  int `bson:"aftermonth" json:"aftermonth"`
+		Theme      string  `bson:"theme" json:"theme"`
+		Dates      [42]int `bson:"dates" json:"dates"`
+		Today      `bson:"today" json:"today"`
+		QueryYear  int `bson:"queryyear" json:"queryyear"`
+		QueryMonth int `bson:"querymonth" json:"querymonth"`
+		LastYear   int `bson:"lastyear" json:"lastyear"`
+		NextYear   int `bson:"nextyear" json:"nextyear"`
+		LastMonth  int `bson:"lastmonth" json:"lastmonth"`
+		NextMonth  int `bson:"nextmonth" json:"nextmonth"`
 	}
 	rcp := recipe{
 		Theme: "default.css",
@@ -75,28 +75,28 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 		rcp.QueryMonth = m
 		switch m {
 		case 1:
-			rcp.BeforeMonth = 12
-			rcp.AfterMonth = m + 1
+			rcp.LastMonth = 12
+			rcp.NextMonth = m + 1
 		case 12:
-			rcp.BeforeMonth = m - 1
-			rcp.AfterMonth = 1
+			rcp.LastMonth = m - 1
+			rcp.NextMonth = 1
 		default:
-			rcp.BeforeMonth = m - 1
-			rcp.AfterMonth = m + 1
+			rcp.LastMonth = m - 1
+			rcp.NextMonth = m + 1
 		}
 		month = m
 	}
 	rcp.QueryMonth = month
 	switch month {
 	case 1:
-		rcp.BeforeMonth = 12
-		rcp.AfterMonth = month + 1
+		rcp.LastMonth = 12
+		rcp.NextMonth = month + 1
 	case 12:
-		rcp.BeforeMonth = month - 1
-		rcp.AfterMonth = 1
+		rcp.LastMonth = month - 1
+		rcp.NextMonth = 1
 	default:
-		rcp.BeforeMonth = month - 1
-		rcp.AfterMonth = month + 1
+		rcp.LastMonth = month - 1
+		rcp.NextMonth = month + 1
 	}
 	year, err := strconv.Atoi(q.Get("year"))
 	if err != nil {
@@ -104,28 +104,28 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 		rcp.QueryYear = y
 		switch month {
 		case 1:
-			rcp.BeforeYear = y - 1
-			rcp.AfterYear = y
+			rcp.LastYear = y - 1
+			rcp.NextYear = y
 		case 12:
-			rcp.BeforeYear = y
-			rcp.AfterYear = y + 1
+			rcp.LastYear = y
+			rcp.NextYear = y + 1
 		default:
-			rcp.BeforeYear = y
-			rcp.AfterYear = y
+			rcp.LastYear = y
+			rcp.NextYear = y
 		}
 		year = y
 	}
 	rcp.QueryYear = year
 	switch month {
 	case 1:
-		rcp.BeforeYear = year - 1
-		rcp.AfterYear = year
+		rcp.LastYear = year - 1
+		rcp.NextYear = year
 	case 12:
-		rcp.BeforeYear = year
-		rcp.AfterYear = year + 1
+		rcp.LastYear = year
+		rcp.NextYear = year + 1
 	default:
-		rcp.BeforeYear = year
-		rcp.AfterYear = year
+		rcp.LastYear = year
+		rcp.NextYear = year
 	}
 	// 75mm studio 일때만 css 파일을 변경한다. 이 구조는 개발 초기에만 사용한다.
 	if userID == "75mmstudio" {
