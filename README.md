@@ -6,7 +6,8 @@ Kalena is calendar web application based on opensource.<br>
 켈레나는 오픈소스 달력 웹어플리케이션입니다.
 
 ## Goal
-We are making calender for enterprise.
+We are making calender service for enterprise.
+기업을 위한 달력서비스를 만듭니다.
 
 ## Features
 - collaboration-oriented
