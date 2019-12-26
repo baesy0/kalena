@@ -76,20 +76,22 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	userID := q.Get("userid")
 	month, err := strconv.Atoi(q.Get("month"))
 	if err != nil {
-		month = rcp.Today.Month
 		rcp.QueryMonth = rcp.Today.Month // 입력이 제대로 안되면 이번 달을 넣는다
+	} else {
+		rcp.QueryMonth = month
 	}
-	rcp.QueryMonth = month
+
 	year, err := strconv.Atoi(q.Get("year"))
 	if err != nil {
-		year = rcp.Today.Year
 		rcp.QueryYear = rcp.Today.Year // 입력이 제대로 안되면 올해 연도를 넣는다.
+	} else {
+		rcp.QueryYear = year
 	}
-	rcp.QueryYear = year
 	// 75mm studio 일때만 css 파일을 변경한다. 이 구조는 개발 초기에만 사용한다.
 	if userID == "75mmstudio" {
 		rcp.Theme = "75mmstudio.css"
 	}
+
 	rcp.Dates, err = genDate(rcp.QueryYear, rcp.QueryMonth)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
