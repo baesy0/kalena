@@ -3,8 +3,8 @@
     <div class="row">
         <div class="col p-0">
             <div class="btn-group" role="group" aria-label="move">
-                <a href="/?year={{.LastYear}}&month={{.LastMonth}}" class="btn btn-sm btn-outline-dark"><</a>
-                <a href="/?year={{.NextYear}}&month={{.NextMonth}}" class="btn btn-sm btn-outline-dark">></a>
+                <a href="/?year={{yearBefore .QueryYear .QueryMonth}}&month={{monthBefore .QueryMonth}}" class="btn btn-sm btn-outline-dark"><</a>
+                <a href="/?year={{yearAfter .QueryYear .QueryMonth}}&month={{monthAfter .QueryMonth}}" class="btn btn-sm btn-outline-dark">></a>
                 <a href="/?year={{.Today.Year}}&month={{.Today.Month}}" class="btn btn-sm btn-outline-dark">Today</a>
             </div>
         </div>
