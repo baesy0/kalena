@@ -14,6 +14,7 @@ We are making calender service for enterprise.
   - 협업을 위한 달력을 만듭니다.
 - Support REST API
   - 켈레나는 REST API를 지원합니다.
+- Developer-friendly
 - Kalena can be installed on cloud and intranet.
   - 클라우드와 인트라넷에 설치가 가능합니다.
 - It can be implemented in pipeline for contents creation.
