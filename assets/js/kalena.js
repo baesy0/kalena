@@ -23,7 +23,7 @@ document.getElementById("calendar").onmouseup = function (event) {
     endID = parseInt((e.target || e.srcElement).id, 10);
     document.getElementById(endID).style.backgroundColor = "#ffe091";
     render = false;
-    // 마우스를 때면 addSchedule modal을 띄운다.
+    // 마우스를 떼면 addSchedule modal을 띄운다.
     $("#addSchedule").modal();
 }
 
