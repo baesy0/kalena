@@ -23,6 +23,9 @@ document.getElementById("calendar").onmouseup = function (event) {
     endID = parseInt((e.target || e.srcElement).id, 10);
     document.getElementById(endID).style.backgroundColor = "#ffe091";
     render = false;
+    // modal에 startID, endID 값을 채운다.
+    document.getElementById("startdate").value = document.getElementById(startID).getAttribute('value'); 
+    document.getElementById("enddate").value = document.getElementById(endID).getAttribute('value');
     // 마우스를 떼면 addSchedule modal을 띄운다.
     $("#addSchedule").modal();
 }

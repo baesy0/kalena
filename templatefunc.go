@@ -35,3 +35,10 @@ func yearAfter(queryYear, queryMonth int) int {
 		return queryYear
 	}
 }
+
+func onlyDate(str string) string {
+	if regexWebdateTime.MatchString(str) {
+		return str[len(str)-2 : len(str)]
+	}
+	return str
+}

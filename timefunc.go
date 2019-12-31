@@ -57,3 +57,54 @@ func genDate(year, month int) ([42]int, error) {
 	}
 	return l, nil
 }
+
+// genDateStr는 연도와 월을 받아서 해당 달의 요일만큼 offset한 후 배열에 날짜문자를 채우는 함수이다.
+func genDateStr(year, month int) ([42]string, error) {
+	var result [42]string // 2020-01-01 형태의 숫자가 저장된 리스트
+	var lastYear int
+	var nextYear int
+	var lastMonth int
+	var nextMonth int
+	switch month {
+	case 1:
+		lastYear = year - 1
+		nextYear = year
+		lastMonth = 12
+		nextMonth = month + 1
+	case 12:
+		lastYear = year
+		nextYear = year + 1
+		lastMonth = month - 1
+		nextMonth = 1
+	default:
+		lastYear = year
+		nextYear = year
+		lastMonth = month - 1
+		nextMonth = month + 1
+	}
+	lastEnd, err := EndOfMonth(lastYear, lastMonth)
+	if err != nil {
+		return result, err
+	}
+	currentStart, err := BeginningOfMonth(year, month)
+	if err != nil {
+		return result, err
+	}
+	currentEnd, err := EndOfMonth(year, month)
+	if err != nil {
+		return result, err
+	}
+	offset := int(currentStart.Weekday())
+	_, _, e := currentEnd.Date()
+	for n := 0; n < 42; n++ {
+		if n < offset {
+			_, _, e := lastEnd.Date()
+			result[n] = fmt.Sprintf("%04d-%02d-%02d", lastYear, lastMonth, n+1-offset+e)
+		} else if n < offset+e {
+			result[n] = fmt.Sprintf("%04d-%02d-%02d", year, month, n+1-offset)
+		} else {
+			result[n] = fmt.Sprintf("%04d-%02d-%02d", nextYear, nextMonth, n+1-offset-e)
+		}
+	}
+	return result, nil
+}

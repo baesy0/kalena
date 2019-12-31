@@ -25,6 +25,7 @@ var funcMap = template.FuncMap{
 	"monthAfter":  monthAfter,
 	"yearBefore":  yearBefore,
 	"yearAfter":   yearAfter,
+	"onlyDate":    onlyDate,
 }
 
 func webserver() {
@@ -57,8 +58,8 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 		Date  int `bson:"date" json:"date"`
 	}
 	type recipe struct {
-		Theme      string  `bson:"theme" json:"theme"`
-		Dates      [42]int `bson:"dates" json:"dates"`
+		Theme      string     `bson:"theme" json:"theme"`
+		Dates      [42]string `bson:"dates" json:"dates"`
 		Today      `bson:"today" json:"today"`
 		QueryYear  int `bson:"queryyear" json:"queryyear"`
 		QueryMonth int `bson:"querymonth" json:"querymonth"`
@@ -92,7 +93,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 		rcp.Theme = "75mmstudio.css"
 	}
 
-	rcp.Dates, err = genDate(rcp.QueryYear, rcp.QueryMonth)
+	rcp.Dates, err = genDateStr(rcp.QueryYear, rcp.QueryMonth)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
