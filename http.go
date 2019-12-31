@@ -92,8 +92,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	if userID == "75mmstudio" {
 		rcp.Theme = "75mmstudio.css"
 	}
-
-	rcp.Dates, err = genDateStr(rcp.QueryYear, rcp.QueryMonth)
+	rcp.Dates, err = genDate(rcp.QueryYear, rcp.QueryMonth)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
