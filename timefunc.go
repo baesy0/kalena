@@ -41,50 +41,57 @@ func BeginningOfMonth(year, month int) (time.Time, error) {
 
 // genDate는 연도와 월을 받아서 해당 달의 요일만큼 offset한 후 배열에 날짜문자를 채우는 함수이다.
 func genDate(year, month int) ([42]string, error) {
-	var result [42]string // 2020-01-01 형태의 숫자가 저장된 리스트
-	var lastYear int
-	var nextYear int
-	var lastMonth int
-	var nextMonth int
+	var result [42]string // 2020-01-01 형태의 숫자가 저장될 리스트
+	// 달력에는 현재 월,일 뿐 아니라 전달의 마지막 주, 다음달 첫주 날짜도 출력되어야 한다.
+	var beforeYear int
+	var afterYear int
+	var beforeMonth int
+	var afterMonth int
+	// 1월, 12월은 이전해, 다음해의 값을 가지고 와야한다. 아래 코드는 해당월의 year, month를 구하는 문장이다.
 	switch month {
 	case 1:
-		lastYear = year - 1
-		nextYear = year
-		lastMonth = 12
-		nextMonth = month + 1
+		beforeYear = year - 1
+		afterYear = year
+		beforeMonth = 12
+		afterMonth = month + 1
 	case 12:
-		lastYear = year
-		nextYear = year + 1
-		lastMonth = month - 1
-		nextMonth = 1
+		beforeYear = year
+		afterYear = year + 1
+		beforeMonth = month - 1
+		afterMonth = 1
 	default:
-		lastYear = year
-		nextYear = year
-		lastMonth = month - 1
-		nextMonth = month + 1
+		beforeYear = year
+		afterYear = year
+		beforeMonth = month - 1
+		afterMonth = month + 1
 	}
-	lastEnd, err := EndOfMonth(lastYear, lastMonth)
+	// 이전월의 마지막일을 구한다.
+	beforeEnd, err := EndOfMonth(beforeYear, beforeMonth)
 	if err != nil {
 		return result, err
 	}
+	// 현재 월의 시작일을 구한다.
 	currentStart, err := BeginningOfMonth(year, month)
 	if err != nil {
 		return result, err
 	}
+	// 현재 월의 마지막일을 구한다.
 	currentEnd, err := EndOfMonth(year, month)
 	if err != nil {
 		return result, err
 	}
-	offset := int(currentStart.Weekday())
 	_, _, e := currentEnd.Date()
+	// 이번달이 몇요일로 시작하는지 구한다. 요일값을 이용해서 날짜를 offset 하기 위함이다.
+	offset := int(currentStart.Weekday())
+	// 위해서 달력을 그리기에 모든 준비가 완료되었다. 위 숫자를 이용해서 달력을 채운다.
 	for n := 0; n < 42; n++ {
-		if n < offset {
-			_, _, e := lastEnd.Date()
-			result[n] = fmt.Sprintf("%04d-%02d-%02d", lastYear, lastMonth, n+1-offset+e)
-		} else if n < offset+e {
+		if n < offset { // 이번달 시작일보다 낮을때는 이전달의 마지막주의 날짜를 구하고 result에 넣는다.
+			_, _, e := beforeEnd.Date()
+			result[n] = fmt.Sprintf("%04d-%02d-%02d", beforeYear, beforeMonth, n+1-offset+e)
+		} else if n < offset+e { // 현재달의 날짜를 구하고 result에 넣는다.
 			result[n] = fmt.Sprintf("%04d-%02d-%02d", year, month, n+1-offset)
-		} else {
-			result[n] = fmt.Sprintf("%04d-%02d-%02d", nextYear, nextMonth, n+1-offset-e)
+		} else { // 다음달 시작주의 날짜를 구하고 result에 넣는다.
+			result[n] = fmt.Sprintf("%04d-%02d-%02d", afterYear, afterMonth, n+1-offset-e)
 		}
 	}
 	return result, nil
