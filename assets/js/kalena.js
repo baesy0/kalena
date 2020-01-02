@@ -59,6 +59,6 @@ window.onload = function highlightToday(){
     
     if(qYear == today.getFullYear() && qMonth == today.getMonth()){
         document.getElementById(offset + today.getDate()-1).style.backgroundColor = "red";
-        console.log(document.getElementById(offset + today.getDate()).outerHTML);
+        console.log(document.getElementById(offset + today.getDate()-1).outerHTML);
     }
 }
