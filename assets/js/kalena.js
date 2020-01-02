@@ -58,7 +58,7 @@ window.onload = function highlightToday(){
     let today = new Date();
     
     if(qYear == today.getFullYear() && qMonth == today.getMonth()){
-        document.getElementById(offset + today.getDate()).style.backgroundColor = "red";
+        document.getElementById(offset + today.getDate()-1).style.backgroundColor = "red";
         console.log(document.getElementById(offset + today.getDate()).outerHTML);
     }
 }
