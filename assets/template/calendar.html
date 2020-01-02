@@ -1,5 +1,5 @@
 {{define "calendar"}}
-<div class="container mt-3 mb-3">
+<div class="container mt-3 mb-3" onload="highlightToday">
     <div class="row">
         <div class="col p-0">
             <div class="btn-group" role="group" aria-label="move">
@@ -34,7 +34,7 @@
         </li>
     </ul>
 </div>
-<div id="calendar" class="container noselect" data-queryyear="{{.QueryYear}}" data-queraymonth="{{.QueryMonth}}" data-offset="{{offset .QueryYear .QueryMonth}}">
+<div id="calendar" class="container noselect" data-queryyear="{{.QueryYear}}" data-querymonth="{{.QueryMonth}}" data-offset="{{offset .QueryYear .QueryMonth}}">
     <div class="row">
         <div class="col">SUN</div>
         <div class="col">MON</div>
