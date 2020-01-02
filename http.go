@@ -25,6 +25,7 @@ var funcMap = template.FuncMap{
 	"monthAfter":  monthAfter,
 	"yearBefore":  yearBefore,
 	"yearAfter":   yearAfter,
+	"offset":      offset,
 }
 
 func webserver() {
