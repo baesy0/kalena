@@ -81,7 +81,7 @@ func genDate(year, month int) ([42]string, error) {
 		return result, err
 	}
 	_, _, e := currentEnd.Date()
-	// 이번달이 몇요일로 시작하는지 구한다. 요일값을 이용해서 날짜를 offset 하기 위함이다.
+	// 이번달이 무슨 요일로 시작하는지 구한다. 요일값을 이용해서 날짜를 offset 하기 위함이다.
 	offset := int(currentStart.Weekday())
 	// 위해서 달력을 그리기에 모든 준비가 완료되었다. 위 숫자를 이용해서 달력을 채운다.
 	for n := 0; n < 42; n++ {
