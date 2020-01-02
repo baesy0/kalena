@@ -42,12 +42,12 @@ func BeginningOfMonth(year, month int) (time.Time, error) {
 // genDate는 연도와 월을 받아서 해당 달의 요일만큼 offset한 후 배열에 날짜문자를 채우는 함수이다.
 func genDate(year, month int) ([42]string, error) {
 	var result [42]string // 2020-01-01 형태의 숫자가 저장될 리스트
-	// 달력에는 현재 월,일 뿐 아니라 전달의 마지막 주, 다음달 첫주 날짜도 출력되어야 한다.
+	// 달력에는 현재 월,일 뿐 아니라 전달의 마지막 주, 다음달 첫주 날짜도 출력되어야 한다. 필요한 변수를 선언한다.
 	var beforeYear int
 	var afterYear int
 	var beforeMonth int
 	var afterMonth int
-	// 1월, 12월은 이전해, 다음해의 값을 가지고 와야한다. 아래 코드는 해당월의 year, month를 구하는 문장이다.
+	// 1월, 12월은 이전해, 다음해의 값을 가지고 와야한다.
 	switch month {
 	case 1:
 		beforeYear = year - 1
