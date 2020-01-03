@@ -55,3 +55,18 @@ document.getElementById("calendar").onmousemove = function () {
         }
     }
 }
+
+
+//올해, 이번달 페이지일 경우, 오늘 날짜에 동그라미를 그린다.
+window.onload = function highlightToday(){
+    let c = document.getElementById("calendar")
+    let qYear = parseInt(c.dataset.queryyear);
+    let qMonth = parseInt(c.dataset.querymonth);
+    let offset = parseInt(c.dataset.offset);
+    let today = new Date();
+    
+    if(qYear == today.getFullYear() && qMonth == (today.getMonth()+1)){
+        document.getElementById(offset + today.getDate()-1).style.backgroundColor = "red";
+        console.log(document.getElementById(offset + today.getDate()-1).outerHTML);
+    }
+}
