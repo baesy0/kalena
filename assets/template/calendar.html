@@ -8,8 +8,10 @@
                 <a href="/?year={{.Today.Year}}&month={{.Today.Month}}" class="btn btn-sm btn-outline-dark">Today</a>
             </div>
         </div>
-        <div class="col p-0 text-center">
-            <span class="h4">{{.QueryMonth}}, {{.QueryYear}}</span>
+        <div class="col p-0 text-center h4">
+            <span id="currentMonth">{{.QueryMonth}}</span>
+            ,
+            <span id="currentYear">{{.QueryYear}}</span>
         </div>
         <div class="col p-0 text-center">
             <span class="float-right btn btn-sm btn-outline-dark" data-toggle="modal" data-target="#addSchedule">+</span>
@@ -45,58 +47,58 @@
         <div class="col">SAT</div>
     </div>
     <div class="row">
-        <div id="0" class="col cell cell-top-left">{{if index .Dates 0}}{{index .Dates 0}}{{else}}{{end}}</div>
-        <div id="1" class="col cell cell-top-left">{{if index .Dates 1}}{{index .Dates 1}}{{else}}{{end}}</div>
-        <div id="2" class="col cell cell-top-left">{{if index .Dates 2}}{{index .Dates 2}}{{else}}{{end}}</div>
-        <div id="3" class="col cell cell-top-left">{{if index .Dates 3}}{{index .Dates 3}}{{else}}{{end}}</div>
-        <div id="4" class="col cell cell-top-left">{{if index .Dates 4}}{{index .Dates 4}}{{else}}{{end}}</div>
-        <div id="5" class="col cell cell-top-left">{{if index .Dates 5}}{{index .Dates 5}}{{else}}{{end}}</div>
-        <div id="6" class="col cell cell-right">{{if index .Dates 6}}{{index .Dates 6}}{{else}}{{end}}</div>
+        <div id="0" value="{{index .Dates 0}}" class="col cell cell-top-left">{{index .Dates 0 | onlyDate}}</div>
+        <div id="1" value="{{index .Dates 1}}" class="col cell cell-top-left">{{index .Dates 1 | onlyDate}}</div>
+        <div id="2" value="{{index .Dates 2}}" class="col cell cell-top-left">{{index .Dates 2 | onlyDate}}</div>
+        <div id="3" value="{{index .Dates 3}}" class="col cell cell-top-left">{{index .Dates 3 | onlyDate}}</div>
+        <div id="4" value="{{index .Dates 4}}" class="col cell cell-top-left">{{index .Dates 4 | onlyDate}}</div>
+        <div id="5" value="{{index .Dates 5}}" class="col cell cell-top-left">{{index .Dates 5 | onlyDate}}</div>
+        <div id="6" value="{{index .Dates 6}}" class="col cell cell-right">{{index .Dates 6 | onlyDate}}</div>
     </div>
     <div class="row">
-        <div id="7"  class="col cell cell-top-left">{{index .Dates 7}}</div>
-        <div id="8"  class="col cell cell-top-left">{{index .Dates 8}}</div>
-        <div id="9"  class="col cell cell-top-left">{{index .Dates 9}}</div>
-        <div id="10" class="col cell cell-top-left">{{index .Dates 10}}</div>
-        <div id="11" class="col cell cell-top-left">{{index .Dates 11}}</div>
-        <div id="12" class="col cell cell-top-left">{{index .Dates 12}}</div>
-        <div id="13" class="col cell cell-right">{{index .Dates 13}}</div>
+        <div id="7"  value="{{index .Dates 7}}"  class="col cell cell-top-left">{{index .Dates 7 | onlyDate}}</div>
+        <div id="8"  value="{{index .Dates 8}}"  class="col cell cell-top-left">{{index .Dates 8 | onlyDate}}</div>
+        <div id="9"  value="{{index .Dates 9}}"  class="col cell cell-top-left">{{index .Dates 9 | onlyDate}}</div>
+        <div id="10" value="{{index .Dates 10}}" class="col cell cell-top-left">{{index .Dates 10 | onlyDate}}</div>
+        <div id="11" value="{{index .Dates 11}}" class="col cell cell-top-left">{{index .Dates 11 | onlyDate}}</div>
+        <div id="12" value="{{index .Dates 12}}" class="col cell cell-top-left">{{index .Dates 12 | onlyDate}}</div>
+        <div id="13" value="{{index .Dates 13}}" class="col cell cell-right">{{index .Dates 13 | onlyDate}}</div>
     </div>
     <div class="row">
-        <div id="14" class="col cell cell-top-left">{{index .Dates 14}}</div>
-        <div id="15" class="col cell cell-top-left">{{index .Dates 15}}</div>
-        <div id="16" class="col cell cell-top-left">{{index .Dates 16}}</div>
-        <div id="17" class="col cell cell-top-left">{{index .Dates 17}}</div>
-        <div id="18" class="col cell cell-top-left">{{index .Dates 18}}</div>
-        <div id="19" class="col cell cell-top-left">{{index .Dates 19}}</div>
-        <div id="20" class="col cell cell-right">{{index .Dates 20}}</div>
+        <div id="14" value="{{index .Dates 14}}" class="col cell cell-top-left">{{index .Dates 14 | onlyDate}}</div>
+        <div id="15" value="{{index .Dates 15}}" class="col cell cell-top-left">{{index .Dates 15 | onlyDate}}</div>
+        <div id="16" value="{{index .Dates 16}}" class="col cell cell-top-left">{{index .Dates 16 | onlyDate}}</div>
+        <div id="17" value="{{index .Dates 17}}" class="col cell cell-top-left">{{index .Dates 17 | onlyDate}}</div>
+        <div id="18" value="{{index .Dates 18}}" class="col cell cell-top-left">{{index .Dates 18 | onlyDate}}</div>
+        <div id="19" value="{{index .Dates 19}}" class="col cell cell-top-left">{{index .Dates 19 | onlyDate}}</div>
+        <div id="20" value="{{index .Dates 20}}" class="col cell cell-right">{{index .Dates 20 | onlyDate}}</div>
     </div>
     <div class="row">
-        <div id="21" class="col cell cell-top-left">{{index .Dates 21}}</div>
-        <div id="22" class="col cell cell-top-left">{{index .Dates 22}}</div>
-        <div id="23" class="col cell cell-top-left">{{index .Dates 23}}</div>
-        <div id="24" class="col cell cell-top-left">{{index .Dates 24}}</div>
-        <div id="25" class="col cell cell-top-left">{{index .Dates 25}}</div>
-        <div id="26" class="col cell cell-top-left">{{index .Dates 26}}</div>
-        <div id="27" class="col cell cell-right">{{index .Dates 27}}</div>
+        <div id="21" value="{{index .Dates 21}}" class="col cell cell-top-left">{{index .Dates 21 | onlyDate}}</div>
+        <div id="22" value="{{index .Dates 22}}" class="col cell cell-top-left">{{index .Dates 22 | onlyDate}}</div>
+        <div id="23" value="{{index .Dates 23}}" class="col cell cell-top-left">{{index .Dates 23 | onlyDate}}</div>
+        <div id="24" value="{{index .Dates 24}}" class="col cell cell-top-left">{{index .Dates 24 | onlyDate}}</div>
+        <div id="25" value="{{index .Dates 25}}" class="col cell cell-top-left">{{index .Dates 25 | onlyDate}}</div>
+        <div id="26" value="{{index .Dates 26}}" class="col cell cell-top-left">{{index .Dates 26 | onlyDate}}</div>
+        <div id="27" value="{{index .Dates 27}}" class="col cell    cell-right">{{index .Dates 27 | onlyDate}}</div>
     </div>
     <div class="row">
-        <div id="28" class="col cell cell-top-left">{{if index .Dates 28}}{{index .Dates 28}}{{else}}{{end}}</div>
-        <div id="29" class="col cell cell-top-left">{{if index .Dates 29}}{{index .Dates 29}}{{else}}{{end}}</div>
-        <div id="30" class="col cell cell-top-left">{{if index .Dates 30}}{{index .Dates 30}}{{else}}{{end}}</div>
-        <div id="31" class="col cell cell-top-left">{{if index .Dates 31}}{{index .Dates 31}}{{else}}{{end}}</div>
-        <div id="32" class="col cell cell-top-left">{{if index .Dates 32}}{{index .Dates 32}}{{else}}{{end}}</div>
-        <div id="33" class="col cell cell-top-left">{{if index .Dates 33}}{{index .Dates 33}}{{else}}{{end}}</div>
-        <div id="34" class="col cell cell-right">{{if index .Dates 34}}{{index .Dates 34}}{{else}}{{end}}</div>
+        <div id="28" value="{{index .Dates 28}}" class="col cell cell-top-left">{{index .Dates 28 | onlyDate}}</div>
+        <div id="29" value="{{index .Dates 29}}" class="col cell cell-top-left">{{index .Dates 29 | onlyDate}}</div>
+        <div id="30" value="{{index .Dates 30}}" class="col cell cell-top-left">{{index .Dates 30 | onlyDate}}</div>
+        <div id="31" value="{{index .Dates 31}}" class="col cell cell-top-left">{{index .Dates 31 | onlyDate}}</div>
+        <div id="32" value="{{index .Dates 32}}" class="col cell cell-top-left">{{index .Dates 32 | onlyDate}}</div>
+        <div id="33" value="{{index .Dates 33}}" class="col cell cell-top-left">{{index .Dates 33 | onlyDate}}</div>
+        <div id="34" value="{{index .Dates 34}}" class="col cell    cell-right">{{index .Dates 34 | onlyDate}}</div>
     </div>
     <div class="row">
-        <div id="35" class="col cell cell-bottom">{{if index .Dates 35}}{{index .Dates 35}}{{else}}{{end}}</div>
-        <div id="36" class="col cell cell-bottom">{{if index .Dates 36}}{{index .Dates 36}}{{else}}{{end}}</div>
-        <div id="37" class="col cell cell-bottom">{{if index .Dates 37}}{{index .Dates 37}}{{else}}{{end}}</div>
-        <div id="38" class="col cell cell-bottom">{{if index .Dates 38}}{{index .Dates 38}}{{else}}{{end}}</div>
-        <div id="39" class="col cell cell-bottom">{{if index .Dates 39}}{{index .Dates 39}}{{else}}{{end}}</div>
-        <div id="40" class="col cell cell-bottom">{{if index .Dates 40}}{{index .Dates 40}}{{else}}{{end}}</div>
-        <div id="41" class="col cell cell-right-bottom">{{if index .Dates 41}}{{index .Dates 41}}{{else}}{{end}}</div>
+        <div id="35" value="{{index .Dates 35}}" class="col cell cell-bottom">{{index .Dates 35 | onlyDate}}</div>
+        <div id="36" value="{{index .Dates 36}}" class="col cell cell-bottom">{{index .Dates 36 | onlyDate}}</div>
+        <div id="37" value="{{index .Dates 37}}" class="col cell cell-bottom">{{index .Dates 37 | onlyDate}}</div>
+        <div id="38" value="{{index .Dates 38}}" class="col cell cell-bottom">{{index .Dates 38 | onlyDate}}</div>
+        <div id="39" value="{{index .Dates 39}}" class="col cell cell-bottom">{{index .Dates 39 | onlyDate}}</div>
+        <div id="40" value="{{index .Dates 40}}" class="col cell cell-bottom">{{index .Dates 40 | onlyDate}}</div>
+        <div id="41" value="{{index .Dates 41}}" class="col cell cell-right-bottom">{{index .Dates 41 | onlyDate}}</div>
     </div>
   </div>
 {{end}}

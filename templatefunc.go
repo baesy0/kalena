@@ -42,3 +42,10 @@ func offset(year, month int) int {
 	t := time.Date(year, time.Month(month), 1, 0, 0, 0, 0, time.UTC)
 	return int(t.Weekday())
 }
+
+func onlyDate(str string) string {
+	if regexWebdateTime.MatchString(str) {
+		return str[len(str)-2 : len(str)]
+	}
+	return str
+}
