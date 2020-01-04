@@ -77,7 +77,6 @@ window.onload = function highlightToday(){
     if(document.getElementById(offset + day.getDate() -1).getAttribute('value') == today){
         content = document.getElementById(offset + day.getDate() -1).innerHTML;
         circle = "<span class=\"circle\">" + content + "</span>";
-        console.log(circle)
         document.getElementById(offset + day.getDate() -1).innerHTML = circle;
     }
 }
