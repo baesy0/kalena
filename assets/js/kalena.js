@@ -72,7 +72,12 @@ window.onload = function highlightToday(){
         date = '0' + date;
     }
     let today = year + '-' + month + '-' + date;//yyyy-mm-dd
+    let content;
+    let circle;
     if(document.getElementById(offset + day.getDate() -1).getAttribute('value') == today){
-        document.getElementById(offset + day.getDate() -1).style.backgroundColor="red"
+        content = document.getElementById(offset + day.getDate() -1).innerHTML;
+        circle = "<span class=\"circle\">" + content + "</span>";
+        console.log(circle)
+        document.getElementById(offset + day.getDate() -1).innerHTML = circle;
     }
 }
