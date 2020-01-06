@@ -59,7 +59,7 @@ func main() {
 		if err != nil {
 			log.Print(err)
 		}
-	} else if *flagSearch {
+	} else if *flagSearch { // 해당 연도, 달의 모든 스케쥴을 가져온다.
 		session, err := mgo.Dial(*flagDBIP)
 		if err != nil {
 			log.Fatal(err)
