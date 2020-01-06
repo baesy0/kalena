@@ -45,6 +45,9 @@ func offset(year, month int) int {
 
 func onlyDate(str string) string {
 	if regexWebdateTime.MatchString(str) {
+		if str[8] == '0' {
+			return string(str[9])
+		}
 		return str[len(str)-2 : len(str)]
 	}
 	return str
