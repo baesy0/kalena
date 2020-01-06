@@ -12,12 +12,20 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="startdate" class="col-form-label">Start</label>
+                    <label for="startdate" class="col-form-label">Start date</label>
                     <input type="date" class="form-control form-control-sm" id="startdate" value="" placeholder="YYYY-MM-DD" >
                 </div>
                 <div class="form-group">
-                    <label for="enddate" class="col-form-label">End</label>
+                    <label for="enddate" class="col-form-label">End date</label>
                     <input type="date" class="form-control form-control-sm" id="enddate" value="" placeholder="YYYY-MM-DD" >
+                </div>
+                <div class="form-group">
+                    <label for="starttime" class="col-form-label">Start time</label>
+                    <input type="time" class="form-control form-control-sm" id="starttime" value="" placeholder="hh:mm:ss+hh:mm" >
+                </div>
+                <div class="form-group">
+                    <label for="endtime" class="col-form-label">End time</label>
+                    <input type="time" class="form-control form-control-sm" id="endtime" value="" placeholder="hh:mm:ss+hh:mm" >
                 </div>
                 <div class="form-group">
                     <label for="title" class="col-form-label">Title</label>
@@ -34,7 +42,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Add</button>
+                <button type="button" class="btn btn-outline-dark" id="addschedulebtn" data-dismiss="modal">Add</button>
             </div>
         </div>
     </div>
