@@ -27,6 +27,7 @@ var funcMap = template.FuncMap{
 	"yearAfter":   yearAfter,
 	"offset":      offset,
 	"onlyDate":    onlyDate,
+	"checkFade":   checkFade,
 }
 
 func webserver() {

@@ -50,3 +50,7 @@
     text-align:center;
     background:#f7d033;
 }
+
+.fade {
+    opacity: 0.3;
+}
