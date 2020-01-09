@@ -1,6 +1,10 @@
 package main
 
-import "time"
+import (
+	"fmt"
+	"strings"
+	"time"
+)
 
 func monthBefore(queryMonth int) int {
 	switch queryMonth {
@@ -45,7 +49,18 @@ func offset(year, month int) int {
 
 func onlyDate(str string) string {
 	if regexWebdateTime.MatchString(str) {
+		if str[8] == '0' {
+			return string(str[9])
+		}
 		return str[len(str)-2 : len(str)]
 	}
 	return str
+}
+
+func checkFade(year, month int, date string) string {
+	prefix := fmt.Sprintf("%04d-%02d", year, month)
+	if strings.HasPrefix(date, prefix) {
+		return ""
+	}
+	return "fade"
 }
