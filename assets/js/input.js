@@ -9,10 +9,6 @@ function addScheduleModal(){
     //나중에 사용자가 지정한 지역의 시간이 들어가도록 해야한다. 일단 한국시간(KST)으로 설정해둠.(UTC기준 +08:00)
     let start = startdate + "T" + starttime + ":00+08:00";
     let end = enddate + "T" + endtime + ":00+08:00";
-
-    console.log(start);
-    console.log(end);
-
     $.ajax({
         url:"/api/schedule",
         type: "post",
