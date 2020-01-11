@@ -97,7 +97,11 @@ func handleAPISchedule(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// json 으로 결과 전송
-	data, _ := json.Marshal(s)
+	data, err := json.Marshal(s)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(http.StatusOK)
 	w.Write(data)
