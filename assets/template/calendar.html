@@ -23,82 +23,86 @@
 <div class="pb-5">
     <ul class="nav nav-tabs">
         <li class="nav-item">
-        <a class="nav-link active">Layer1</a>
+            <a class="nav-link active">Layer1</a>
         </li>
         <li class="nav-item">
-        <a class="nav-link">Layer2</a>
+            <a class="nav-link">Layer2</a>
         </li>
         <li class="nav-item">
-        <a class="nav-link">Layer3</a>
+            <a class="nav-link">Layer3</a>
         </li>
         <li class="nav-item">
-        <a class="nav-link btn btn-sm btn-outline-dark" data-toggle="modal" data-target="#addLayer">+</a>
+            <a class="nav-link btn btn-sm btn-outline-dark" data-toggle="modal" data-target="#addLayer">+</a>
         </li>
     </ul>
 </div>
-<div id="calendar" class="container noselect" data-offset="{{offset .QueryYear .QueryMonth}}">
-    <div class="row">
-        <div class="col">SUN</div>
-        <div class="col">MON</div>
-        <div class="col">TUE</div>
-        <div class="col">WED</div>
-        <div class="col">THU</div>
-        <div class="col">FRI</div>
-        <div class="col">SAT</div>
-    </div>
-    <div class="row">
-        <div id="0" value="{{index .Dates 0}}" class="col cell cell-top-left"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 0)}}">{{onlyDate (index .Dates 0)}}</span></div>
-        <div id="1" value="{{index .Dates 1}}" class="col cell cell-top-left"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 1)}}">{{onlyDate (index .Dates 1)}}</span></div>
-        <div id="2" value="{{index .Dates 2}}" class="col cell cell-top-left"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 2)}}">{{onlyDate (index .Dates 2)}}</span></div>
-        <div id="3" value="{{index .Dates 3}}" class="col cell cell-top-left"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 3)}}">{{onlyDate (index .Dates 3)}}</span></div>
-        <div id="4" value="{{index .Dates 4}}" class="col cell cell-top-left"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 4)}}">{{onlyDate (index .Dates 4)}}</span></div>
-        <div id="5" value="{{index .Dates 5}}" class="col cell cell-top-left"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 5)}}">{{onlyDate (index .Dates 5)}}</span></div>
-        <div id="6" value="{{index .Dates 6}}" class="col cell cell-right"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 6)}}">{{onlyDate (index .Dates 6)}}</span></div>
-    </div>
-    <div class="row">
-        <div id="7"  value="{{index .Dates 7}}"  class="col cell cell-top-left"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 7)}}">{{onlyDate (index .Dates 7)}}</span></div>
-        <div id="8"  value="{{index .Dates 8}}"  class="col cell cell-top-left"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 8)}}">{{onlyDate (index .Dates 8)}}</span></div>
-        <div id="9"  value="{{index .Dates 9}}"  class="col cell cell-top-left"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 9)}}">{{onlyDate (index .Dates 9)}}</span></div>
-        <div id="10" value="{{index .Dates 10}}" class="col cell cell-top-left"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 10)}}">{{onlyDate (index .Dates 10)}}</span></div>
-        <div id="11" value="{{index .Dates 11}}" class="col cell cell-top-left"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 11)}}">{{onlyDate (index .Dates 11)}}</span></div>
-        <div id="12" value="{{index .Dates 12}}" class="col cell cell-top-left"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 12)}}">{{onlyDate (index .Dates 12)}}</span></div>
-        <div id="13" value="{{index .Dates 13}}" class="col cell cell-right"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 13)}}">{{onlyDate (index .Dates 13)}}</span></div>
-    </div>
-    <div class="row">
-        <div id="14" value="{{index .Dates 14}}" class="col cell cell-top-left"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 14)}}">{{onlyDate (index .Dates 14)}}</span></div>
-        <div id="15" value="{{index .Dates 15}}" class="col cell cell-top-left"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 15)}}">{{onlyDate (index .Dates 15)}}</span></div>
-        <div id="16" value="{{index .Dates 16}}" class="col cell cell-top-left"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 16)}}">{{onlyDate (index .Dates 16)}}</span></div>
-        <div id="17" value="{{index .Dates 17}}" class="col cell cell-top-left"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 17)}}">{{onlyDate (index .Dates 17)}}</span></div>
-        <div id="18" value="{{index .Dates 18}}" class="col cell cell-top-left"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 18)}}">{{onlyDate (index .Dates 18)}}</span></div>
-        <div id="19" value="{{index .Dates 19}}" class="col cell cell-top-left"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 19)}}">{{onlyDate (index .Dates 19)}}</span></div>
-        <div id="20" value="{{index .Dates 20}}" class="col cell    cell-right"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 20)}}">{{onlyDate (index .Dates 20)}}</span></div>
-    </div>
-    <div class="row">
-        <div id="21" value="{{index .Dates 21}}" class="col cell cell-top-left"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 21)}}">{{onlyDate (index .Dates 21)}}</span></div>
-        <div id="22" value="{{index .Dates 22}}" class="col cell cell-top-left"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 22)}}">{{onlyDate (index .Dates 22)}}</span></div>
-        <div id="23" value="{{index .Dates 23}}" class="col cell cell-top-left"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 23)}}">{{onlyDate (index .Dates 23)}}</span></div>
-        <div id="24" value="{{index .Dates 24}}" class="col cell cell-top-left"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 24)}}">{{onlyDate (index .Dates 24)}}</span></div>
-        <div id="25" value="{{index .Dates 25}}" class="col cell cell-top-left"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 25)}}">{{onlyDate (index .Dates 25)}}</span></div>
-        <div id="26" value="{{index .Dates 26}}" class="col cell cell-top-left"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 26)}}">{{onlyDate (index .Dates 26)}}</span></div>
-        <div id="27" value="{{index .Dates 27}}" class="col cell    cell-right"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 27)}}">{{onlyDate (index .Dates 27)}}</span></div>
-    </div>
-    <div class="row">
-        <div id="28" value="{{index .Dates 28}}" class="col cell cell-top-left"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 28)}}">{{onlyDate (index .Dates 28)}}</span></div>
-        <div id="29" value="{{index .Dates 29}}" class="col cell cell-top-left"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 29)}}">{{onlyDate (index .Dates 29)}}</span></div>
-        <div id="30" value="{{index .Dates 30}}" class="col cell cell-top-left"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 30)}}">{{onlyDate (index .Dates 30)}}</span></div>
-        <div id="31" value="{{index .Dates 31}}" class="col cell cell-top-left"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 31)}}">{{onlyDate (index .Dates 31)}}</span></div>
-        <div id="32" value="{{index .Dates 32}}" class="col cell cell-top-left"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 32)}}">{{onlyDate (index .Dates 32)}}</span></div>
-        <div id="33" value="{{index .Dates 33}}" class="col cell cell-top-left"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 33)}}">{{onlyDate (index .Dates 33)}}</span></div>
-        <div id="34" value="{{index .Dates 34}}" class="col cell    cell-right"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 34)}}">{{onlyDate (index .Dates 34)}}</span></div>
-    </div>
-    <div class="row">
-        <div id="35" value="{{index .Dates 35}}" class="col cell       cell-bottom"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 35)}}">{{onlyDate (index .Dates 35)}}</span></div>
-        <div id="36" value="{{index .Dates 36}}" class="col cell       cell-bottom"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 36)}}">{{onlyDate (index .Dates 36)}}</span></div>
-        <div id="37" value="{{index .Dates 37}}" class="col cell       cell-bottom"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 37)}}">{{onlyDate (index .Dates 37)}}</span></div>
-        <div id="38" value="{{index .Dates 38}}" class="col cell       cell-bottom"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 38)}}">{{onlyDate (index .Dates 38)}}</span></div>
-        <div id="39" value="{{index .Dates 39}}" class="col cell       cell-bottom"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 39)}}">{{onlyDate (index .Dates 39)}}</span></div>
-        <div id="40" value="{{index .Dates 40}}" class="col cell       cell-bottom"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 40)}}">{{onlyDate (index .Dates 40)}}</span></div>
-        <div id="41" value="{{index .Dates 41}}" class="col cell cell-right-bottom"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 41)}}">{{onlyDate (index .Dates 41)}}</span></div>
-    </div>
-  </div>
+
+<div style="width:90%" class="text-center mx-auto">
+    <table id="calendar" class="w-100 text-right noselect" data-offset="{{offset .QueryYear .QueryMonth}}">
+        <tr>
+            <th class="cell-title">SUN</th>
+            <th class="cell-title">MON</th>
+            <th class="cell-title">TUE</th>
+            <th class="cell-title">WED</th>
+            <th class="cell-title">THU</th>
+            <th class="cell-title">FRI</th>
+            <th class="cell-title">SAT</th>
+        </tr>    
+        <tr>
+            <td id="0" value="{{index .Dates 0}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 0)}}">{{onlyDate (index .Dates 0)}}</span></td>
+            <td id="1" value="{{index .Dates 1}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 1)}}">{{onlyDate (index .Dates 1)}}</span></td>
+            <td id="2" value="{{index .Dates 2}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 2)}}">{{onlyDate (index .Dates 2)}}</span></td>
+            <td id="3" value="{{index .Dates 3}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 3)}}">{{onlyDate (index .Dates 3)}}</span></td>
+            <td id="4" value="{{index .Dates 4}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 4)}}">{{onlyDate (index .Dates 4)}}</span></td>
+            <td id="5" value="{{index .Dates 5}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 5)}}">{{onlyDate (index .Dates 5)}}</span></td>
+            <td id="6" value="{{index .Dates 6}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 6)}}">{{onlyDate (index .Dates 6)}}</span></td>
+        </tr>
+        <tr>
+            <td id="7"  value="{{index .Dates 7}}"  class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 7)}}">{{onlyDate (index .Dates 7)}}</span></td>
+            <td id="8"  value="{{index .Dates 8}}"  class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 8)}}">{{onlyDate (index .Dates 8)}}</span></td>
+            <td id="9"  value="{{index .Dates 9}}"  class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 9)}}">{{onlyDate (index .Dates 9)}}</span></td>
+            <td id="10" value="{{index .Dates 10}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 10)}}">{{onlyDate (index .Dates 10)}}</span></td>
+            <td id="11" value="{{index .Dates 11}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 11)}}">{{onlyDate (index .Dates 11)}}</span></td>
+            <td id="12" value="{{index .Dates 12}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 12)}}">{{onlyDate (index .Dates 12)}}</span></td>
+            <td id="13" value="{{index .Dates 13}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 13)}}">{{onlyDate (index .Dates 13)}}</span></td>
+        </tr>
+        <tr>
+            <td id="14" value="{{index .Dates 14}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 14)}}">{{onlyDate (index .Dates 14)}}</span></td>
+            <td id="15" value="{{index .Dates 15}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 15)}}">{{onlyDate (index .Dates 15)}}</span></td>
+            <td id="16" value="{{index .Dates 16}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 16)}}">{{onlyDate (index .Dates 16)}}</span></td>
+            <td id="17" value="{{index .Dates 17}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 17)}}">{{onlyDate (index .Dates 17)}}</span></td>
+            <td id="18" value="{{index .Dates 18}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 18)}}">{{onlyDate (index .Dates 18)}}</span></td>
+            <td id="19" value="{{index .Dates 19}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 19)}}">{{onlyDate (index .Dates 19)}}</span></td>
+            <td id="20" value="{{index .Dates 20}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 20)}}">{{onlyDate (index .Dates 20)}}</span></td>
+        </tr>
+        <tr>
+            <td id="21" value="{{index .Dates 21}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 21)}}">{{onlyDate (index .Dates 21)}}</span></td>
+            <td id="22" value="{{index .Dates 22}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 22)}}">{{onlyDate (index .Dates 22)}}</span></td>
+            <td id="23" value="{{index .Dates 23}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 23)}}">{{onlyDate (index .Dates 23)}}</span></td>
+            <td id="24" value="{{index .Dates 24}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 24)}}">{{onlyDate (index .Dates 24)}}</span></td>
+            <td id="25" value="{{index .Dates 25}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 25)}}">{{onlyDate (index .Dates 25)}}</span></td>
+            <td id="26" value="{{index .Dates 26}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 26)}}">{{onlyDate (index .Dates 26)}}</span></td>
+            <td id="27" value="{{index .Dates 27}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 27)}}">{{onlyDate (index .Dates 27)}}</span></td>
+        </tr>
+        <tr>
+            <td id="28" value="{{index .Dates 28}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 28)}}">{{onlyDate (index .Dates 28)}}</span></td>
+            <td id="29" value="{{index .Dates 29}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 29)}}">{{onlyDate (index .Dates 29)}}</span></td>
+            <td id="30" value="{{index .Dates 30}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 30)}}">{{onlyDate (index .Dates 30)}}</span></td>
+            <td id="31" value="{{index .Dates 31}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 31)}}">{{onlyDate (index .Dates 31)}}</span></td>
+            <td id="32" value="{{index .Dates 32}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 32)}}">{{onlyDate (index .Dates 32)}}</span></td>
+            <td id="33" value="{{index .Dates 33}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 33)}}">{{onlyDate (index .Dates 33)}}</span></td>
+            <td id="34" value="{{index .Dates 34}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 34)}}">{{onlyDate (index .Dates 34)}}</span></td>
+        </tr>
+        <tr>
+            <td id="35" value="{{index .Dates 35}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 35)}}">{{onlyDate (index .Dates 35)}}</span></td>
+            <td id="36" value="{{index .Dates 36}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 36)}}">{{onlyDate (index .Dates 36)}}</span></td>
+            <td id="37" value="{{index .Dates 37}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 37)}}">{{onlyDate (index .Dates 37)}}</span></td>
+            <td id="38" value="{{index .Dates 38}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 38)}}">{{onlyDate (index .Dates 38)}}</span></td>
+            <td id="39" value="{{index .Dates 39}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 39)}}">{{onlyDate (index .Dates 39)}}</span></td>
+            <td id="40" value="{{index .Dates 40}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 40)}}">{{onlyDate (index .Dates 40)}}</span></td>
+            <td id="41" value="{{index .Dates 41}}" class="cell"><span class="{{checkFade .QueryYear .QueryMonth (index .Dates 41)}}">{{onlyDate (index .Dates 41)}}</span></td>
+        </tr>
+    </table>
+</div>
+
 {{end}}
