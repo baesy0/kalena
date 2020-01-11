@@ -63,20 +63,20 @@ func SearchMonth(session *mgo.Session, Collection, year, month string) ([]Schedu
 		return nil, err
 	}
 	for _, s := range all {
-		startTime, err := time.Parse("2006-01-02T15:04:05-07:00", s.Start)
+		startTime, err := time.Parse(time.RFC3339, s.Start)
 		if err != nil {
 			return []Schedule{}, err
 		}
-		endTime, err := time.Parse("2006-01-02T15:04:05-07:00", s.End)
+		endTime, err := time.Parse(time.RFC3339, s.End)
 		if err != nil {
 			return []Schedule{}, err
 		}
 		// 현재는 한국 시간으로 한다. 사용자별로 시간대를 설정할 수 있는 기능은 나중에 만들겠다.
-		monthStart, err := time.Parse("2006-01-02T15:04:05-07:00", fmt.Sprintf("%s-%s-01T00:00:00+09:00", year, month))
+		monthStart, err := time.Parse(time.RFC3339, fmt.Sprintf("%s-%s-01T00:00:00+09:00", year, month))
 		if err != nil {
 			return []Schedule{}, err
 		}
-		monthEnd, err := time.Parse("2006-01-02T15:04:05-07:00", fmt.Sprintf("%s-%s-30T23:59:59+09:00", year, month))
+		monthEnd, err := time.Parse(time.RFC3339, fmt.Sprintf("%s-%s-30T23:59:59+09:00", year, month))
 		if err != nil {
 			return []Schedule{}, err
 		}

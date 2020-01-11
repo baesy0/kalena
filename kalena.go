@@ -25,6 +25,9 @@ var (
 	flagEnd      = flag.String("end", "", "End time")
 	flagLocation = flag.String("location", "Asia/Seoul", "location name")
 
+	flagYear  = flag.String("year", "", "year to search")
+	flagMonth = flag.String("month", "", "month to search")
+
 	flagCollection = flag.String("collection", "", "username for DB collection")
 
 	flagDBIP     = flag.String("dbip", "", "DB IP")
@@ -60,12 +63,18 @@ func main() {
 			log.Print(err)
 		}
 	} else if *flagSearch { // 해당 연도, 달의 모든 스케쥴을 가져온다.
+		if !regexInt4.MatchString(*flagYear) {
+			log.Fatal("검색할 연도를 4자리 정수로 입력해주세요")
+		}
+		if !regexInt2.MatchString(*flagMonth) {
+			log.Fatal("검색할 월을 2자리 정수로 입력해주세요(3월 -> 03, 11월 -> 11")
+		}
 		session, err := mgo.Dial(*flagDBIP)
 		if err != nil {
 			log.Fatal(err)
 		}
 		defer session.Close()
-		testdata, err := SearchMonth(session, *flagCollection, "2019", "11")
+		testdata, err := SearchMonth(session, *flagCollection, *flagYear, *flagMonth)
 		if err != nil {
 			log.Println(err)
 		}
