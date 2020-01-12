@@ -1,4 +1,6 @@
 function addScheduleModal(){
+    let e = document.getElementById("collection");
+    let collection = e.options[e.selectedIndex].value;
     let startdate = document.getElementById("startdate").value;
     let enddate = document.getElementById("enddate").value;
     let starttime = document.getElementById("starttime").value;
@@ -6,6 +8,7 @@ function addScheduleModal(){
     let title = document.getElementById("title").value;
     let layer = document.getElementById("layer").value;
 
+    console.log(collection)
     //나중에 사용자가 지정한 지역의 시간이 들어가도록 해야한다. 일단 한국시간(KST)으로 설정해둠.(UTC기준 +09:00)
     let start = startdate + "T" + starttime + ":00+09:00";
     let end = enddate + "T" + endtime + ":00+09:00";
@@ -13,7 +16,7 @@ function addScheduleModal(){
         url:"/api/schedule",
         type: "post",
         data:{
-            collection: "bae",
+            collection: collection,
             title: title,
             start: start,
             end: end,
