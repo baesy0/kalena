@@ -2,6 +2,13 @@ let render = false;
 let startID = 0;
 let endID = 0;
 
+function clearSelection() {
+    // 배경색을 초기화 한다.
+    for (let i = 0; i < 42; i++) { 
+        document.getElementById(i).style.backgroundColor = "#ffffff";
+    }
+}
+
 document.getElementById("calendar").onmousedown = function (event) {
     // 배경색을 초기화 한다.
     startID = 0;
