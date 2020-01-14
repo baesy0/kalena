@@ -1,4 +1,6 @@
 function addScheduleModal(){
+    let e = document.getElementById("collection");
+    let collection = e.options[e.selectedIndex].value;
     let startdate = document.getElementById("startdate").value;
     let enddate = document.getElementById("enddate").value;
     let starttime = document.getElementById("starttime").value;
@@ -13,7 +15,7 @@ function addScheduleModal(){
         url:"/api/schedule",
         type: "post",
         data:{
-            collection: "bae",
+            collection: collection,
             title: title,
             start: start,
             end: end,
