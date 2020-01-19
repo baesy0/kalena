@@ -29,9 +29,11 @@ function addScheduleModal(){
             //지금은 알림창 정도
             console.log("success");
             alert("success!");
+            clearSelection();
         },
         error: function(request,status,error){
             alert("code:"+request.status+"\n"+"status:"+status+"\n"+"msg:"+request.responseText+"\n"+"error:"+error);
+            clearSelection();
         }
     });
 }
