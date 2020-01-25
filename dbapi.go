@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sort"
 	"time"
 
 	"gopkg.in/mgo.v2"
@@ -91,4 +92,17 @@ func SearchMonth(session *mgo.Session, Collection, year, month string) ([]Schedu
 		results = append(results, s)
 	}
 	return results, nil
+}
+
+// GetLayers 함수는 DB Collection 에서 사용되는 모든 layer값을 반환한다.
+func GetLayers(session *mgo.Session, Collection string) ([]string, error) {
+	session.SetMode(mgo.Monotonic, true)
+	c := session.DB(*flagDBName).C(Collection)
+	var layers []string
+	err := c.Find(bson.M{}).Distinct("layer", &layers)
+	if err != nil {
+		return nil, err
+	}
+	sort.Strings(layers)
+	return layers, nil
 }
