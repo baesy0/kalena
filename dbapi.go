@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"sort"
+	"strconv"
 	"time"
 
 	"gopkg.in/mgo.v2"
@@ -59,37 +60,19 @@ func SearchMonth(session *mgo.Session, Collection, year, month string) ([]Schedu
 	c := session.DB(*flagDBName).C(Collection)
 	var all []Schedule
 	var results []Schedule
-	err := c.Find(bson.M{}).All(&all)
+	y, err := strconv.Atoi(year)
+	m, err := strconv.Atoi(month)
+	start, err := BeginningOfMonth(y, m)
+	end, err := EndOfMonth(y, m)
+	s, err := TimeToNum(start.String())
+	e, err := TimeToNum(end.String())
+	query := []bson.M{}
+	query.append(query, bson.M{"Startnum":{$gt: e}})
+	query.append(query, bson.M{"Endnum":{$lt: s}})
+	q := bson.M{"$nor": query}
+	err = c.Find(q).All(&results)
 	if err != nil {
 		return nil, err
-	}
-	for _, s := range all {
-		startTime, err := time.Parse(time.RFC3339, s.Start)
-		if err != nil {
-			return []Schedule{}, err
-		}
-		endTime, err := time.Parse(time.RFC3339, s.End)
-		if err != nil {
-			return []Schedule{}, err
-		}
-		// 현재는 한국 시간으로 한다. 사용자별로 시간대를 설정할 수 있는 기능은 나중에 만들겠다.
-		monthStart, err := time.Parse(time.RFC3339, fmt.Sprintf("%s-%s-01T00:00:00+09:00", year, month))
-		if err != nil {
-			return []Schedule{}, err
-		}
-		monthEnd, err := time.Parse(time.RFC3339, fmt.Sprintf("%s-%s-30T23:59:59+09:00", year, month))
-		if err != nil {
-			return []Schedule{}, err
-		}
-		// endTime 이 monthStart 보다 작을 때 제외한다.
-		if endTime.Before(monthStart) {
-			continue
-		}
-		// startTime 이 monthEnd 보다 클 때 제외한다.
-		if startTime.After(monthEnd) {
-			continue
-		}
-		results = append(results, s)
 	}
 	return results, nil
 }
