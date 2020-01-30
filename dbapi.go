@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"sort"
 	"strconv"
 	"time"
@@ -58,18 +57,38 @@ func allSchedules(session *mgo.Session, Collection string) ([]Schedule, error) {
 func SearchMonth(session *mgo.Session, Collection, year, month string) ([]Schedule, error) {
 	session.SetMode(mgo.Monotonic, true)
 	c := session.DB(*flagDBName).C(Collection)
-	var all []Schedule
 	var results []Schedule
+
 	y, err := strconv.Atoi(year)
+	if err != nil {
+		return nil, err
+	}
 	m, err := strconv.Atoi(month)
+	if err != nil {
+		return nil, err
+	}
 	start, err := BeginningOfMonth(y, m)
+	if err != nil {
+		return nil, err
+	}
 	end, err := EndOfMonth(y, m)
-	s, err := TimeToNum(start.String())
-	e, err := TimeToNum(end.String())
+	if err != nil {
+		return nil, err
+	}
+	s, err := TimeToNum(start.Format(time.RFC3339))
+	if err != nil {
+		return nil, err
+	}
+	e, err := TimeToNum(end.Format(time.RFC3339))
+	if err != nil {
+		return nil, err
+	}
+
 	query := []bson.M{}
-	query.append(query, bson.M{"Startnum":{$gt: e}})
-	query.append(query, bson.M{"Endnum":{$lt: s}})
+	query = append(query, bson.M{"Startnum": bson.M{"$gt": e}})
+	query = append(query, bson.M{"Endnum": bson.M{"$lt": s}})
 	q := bson.M{"$nor": query}
+
 	err = c.Find(q).All(&results)
 	if err != nil {
 		return nil, err
