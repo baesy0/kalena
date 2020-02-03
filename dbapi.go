@@ -22,7 +22,7 @@ func AddSchedule(session *mgo.Session, s Schedule) error {
 		return err
 	}
 	session.SetMode(mgo.Monotonic, true)
-	c := session.DB(*flagDBName).C(s.Collection)
+	c := session.DB(*flagDBName).C(s.Collection + "." + s.Layer)
 	err = c.Insert(s)
 	if err != nil {
 		return err
@@ -31,9 +31,9 @@ func AddSchedule(session *mgo.Session, s Schedule) error {
 }
 
 // RmSchedule 함수는 DB에서 id가 일치하는 Schedule을 삭제한다.
-func RmSchedule(session *mgo.Session, Collection string, id bson.ObjectId) error {
+func RmSchedule(session *mgo.Session, Collection, Layer string, id bson.ObjectId) error {
 	session.SetMode(mgo.Monotonic, true)
-	c := session.DB(*flagDBName).C(Collection)
+	c := session.DB(*flagDBName).C(Collection + "." + Layer)
 	err := c.RemoveId(id)
 	if err != nil {
 		return err
@@ -42,9 +42,9 @@ func RmSchedule(session *mgo.Session, Collection string, id bson.ObjectId) error
 }
 
 // allSchedules는 DB에서 전체 스케쥴 정보를 가져오는 함수입니다.
-func allSchedules(session *mgo.Session, Collection string) ([]Schedule, error) {
+func allSchedules(session *mgo.Session, Collection, Layer string) ([]Schedule, error) {
 	session.SetMode(mgo.Monotonic, true)
-	c := session.DB(*flagDBName).C(Collection)
+	c := session.DB(*flagDBName).C(Collection + "." + Layer)
 	var result []Schedule
 	err := c.Find(bson.M{}).All(&result)
 	if err != nil {
@@ -54,9 +54,9 @@ func allSchedules(session *mgo.Session, Collection string) ([]Schedule, error) {
 }
 
 // SearchMonth 함수는 Collection, Year, Month을 입력받아 start의 값이 일치하면 반환한다.
-func SearchMonth(session *mgo.Session, Collection, year, month string) ([]Schedule, error) {
+func SearchMonth(session *mgo.Session, Collection, Layer, year, month string) ([]Schedule, error) {
 	session.SetMode(mgo.Monotonic, true)
-	c := session.DB(*flagDBName).C(Collection)
+	c := session.DB(*flagDBName).C(Collection + "." + Layer)
 	var results []Schedule
 
 	y, err := strconv.Atoi(year)
@@ -96,9 +96,9 @@ func SearchMonth(session *mgo.Session, Collection, year, month string) ([]Schedu
 }
 
 // GetLayers 함수는 DB Collection 에서 사용되는 모든 layer값을 반환한다.
-func GetLayers(session *mgo.Session, Collection string) ([]string, error) {
+func GetLayers(session *mgo.Session, Collection, Layer string) ([]string, error) {
 	session.SetMode(mgo.Monotonic, true)
-	c := session.DB(*flagDBName).C(Collection)
+	c := session.DB(*flagDBName).C(Collection + "." + Layer)
 	var layers []string
 	err := c.Find(bson.M{}).Distinct("layer", &layers)
 	if err != nil {
