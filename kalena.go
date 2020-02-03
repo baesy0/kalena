@@ -36,7 +36,12 @@ var (
 )
 
 func main() {
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+	log.SetPrefix("kalena: ")
 	flag.Parse()
+	if *flagCollection == "" {
+		log.Fatal("Collection이 빈 문자열 입니다")
+	}
 	if *flagAdd {
 		s := Schedule{}
 		s.Collection = *flagCollection
