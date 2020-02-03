@@ -42,7 +42,6 @@ func webserver() {
 	// 웹주소 설정
 	http.HandleFunc("/", handleIndex)
 	http.HandleFunc("/search", handleSearch)
-	http.HandleFunc("/add", handleAdd)
 	// RestAPI
 	http.HandleFunc("/api/schedule", handleAPISchedule)
 	// 웹서버 실행
@@ -104,10 +103,6 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-}
-
-func handleAdd(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("add page"))
 }
 
 // handleSearch
