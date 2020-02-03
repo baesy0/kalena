@@ -118,6 +118,10 @@ func handleSearch(w http.ResponseWriter, r *http.Request) {
 	month := q.Get("month")
 	day := q.Get("day")
 	layer := q.Get("layer")
+	if layer == "" {
+		http.Error(w, "URL에 layer를 입력해주세요", http.StatusBadRequest)
+		return
+	}
 	sortKey := q.Get("sortkey")
 	if userID == "" {
 		http.Error(w, "URL에 userid를 입력해주세요", http.StatusBadRequest)
@@ -131,7 +135,7 @@ func handleSearch(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 	defer session.Close()
-	schedules, err := allSchedules(session, userID)
+	schedules, err := allSchedules(session, userID, layer)
 	if err != nil {
 		w.Write([]byte(err.Error()))
 		return
