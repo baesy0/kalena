@@ -85,10 +85,9 @@ func SearchMonth(session *mgo.Session, Collection, year, month string) ([]Schedu
 	}
 
 	query := []bson.M{}
-	query = append(query, bson.M{"Startnum": bson.M{"$gt": e}})
-	query = append(query, bson.M{"Endnum": bson.M{"$lt": s}})
+	query = append(query, bson.M{"startnum": bson.M{"$gt": e}})
+	query = append(query, bson.M{"endnum": bson.M{"$lt": s}})
 	q := bson.M{"$nor": query}
-
 	err = c.Find(q).All(&results)
 	if err != nil {
 		return nil, err
