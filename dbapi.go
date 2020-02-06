@@ -1,6 +1,7 @@
 package main
 
 import (
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -116,5 +117,6 @@ func GetLayers(session *mgo.Session, Collection, Layer string) ([]string, error)
 		}
 		layers = append(layers, layerName)
 	}
+	sort.Strings(layers)
 	return layers, nil
 }
