@@ -3,6 +3,7 @@ package main
 import (
 	"sort"
 	"strconv"
+	"strings"
 	"time"
 
 	"gopkg.in/mgo.v2"
@@ -98,11 +99,23 @@ func SearchMonth(session *mgo.Session, Collection, Layer, year, month string) ([
 // GetLayers 함수는 DB Collection 에서 사용되는 모든 layer값을 반환한다.
 func GetLayers(session *mgo.Session, Collection, Layer string) ([]string, error) {
 	session.SetMode(mgo.Monotonic, true)
-	c := session.DB(*flagDBName).C(Collection + "." + Layer)
-	var layers []string
-	err := c.Find(bson.M{}).Distinct("layer", &layers)
+	collections, err := session.DB(*flagDBName).CollectionNames()
 	if err != nil {
 		return nil, err
+	}
+	var layers []string
+	for _, l := range collections {
+		if l == "system.indexes" {
+			continue //mongodb의 기본 컬렉션이다. 제외한다.
+		}
+		if !strings.Contains(l, ".") { // collection 구조는 collection.layername 이다.
+			continue
+		}
+		layerName := strings.Split(l, ".")[1] // . 캐릭터의 뒷 부분이 layerName 이다.
+		if layerName == "" {
+			continue
+		}
+		layers = append(layers, layerName)
 	}
 	sort.Strings(layers)
 	return layers, nil
