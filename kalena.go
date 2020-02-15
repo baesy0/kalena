@@ -39,10 +39,11 @@ func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	log.SetPrefix("kalena: ")
 	flag.Parse()
-	if *flagCollection == "" {
-		log.Fatal("Collection이 빈 문자열 입니다")
-	}
+
 	if *flagAdd {
+		if *flagCollection == "" {
+			log.Fatal("Collection이 빈 문자열 입니다")
+		}
 		s := Schedule{}
 		s.Collection = *flagCollection
 		s.Color = *flagColor
@@ -68,6 +69,9 @@ func main() {
 			log.Print(err)
 		}
 	} else if *flagSearch { // 해당 연도, 달의 모든 스케쥴을 가져온다.
+		if *flagCollection == "" {
+			log.Fatal("Collection이 빈 문자열 입니다")
+		}
 		if !regexInt4.MatchString(*flagYear) {
 			log.Fatal("검색할 연도를 4자리 정수로 입력해주세요")
 		}
