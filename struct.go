@@ -7,6 +7,13 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+// Layer 자료구조
+type Layer struct {
+	ID    string `json:"id" bson:"id"`       // ID
+	Name  string `json:"name" bson:"name"`   // 표기명
+	Order int    `json:"order" bson:"order"` // Layer 순서
+}
+
 // Schedule 자료구조
 type Schedule struct {
 	ID         bson.ObjectId `json:"id" bson:"_id,omitempty"`
