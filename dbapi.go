@@ -142,7 +142,7 @@ func RmLayer(session *mgo.Session, Collection, name string) error {
 		return err
 	}
 	if num == 0 {
-		return errors.New(name + "layer가 존재하지 않습니다")
+		return errors.New(name + " layer가 존재하지 않습니다")
 	}
 	err = c.Remove(bson.M{"name": name})
 	if err != nil {
