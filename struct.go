@@ -9,7 +9,7 @@ import (
 
 // Layer 자료구조
 type Layer struct {
-	Name   string `json:"name" bson:"name"`     // 표기명
+	Name   string `json:"name" bson:"name"`     // Layer 이름
 	Color  string `json:"color" bson:"color"`   // Layer 컬러
 	Order  int    `json:"order" bson:"order"`   // Layer 순서
 	Hidden bool   `json:"hidden" bson:"hidden"` // Layer 숨김 속성
