@@ -99,12 +99,12 @@ func SearchMonth(session *mgo.Session, Collection, Layer, year, month string) ([
 func GetLayers(session *mgo.Session, Collection string) ([]Layer, error) {
 	session.SetMode(mgo.Monotonic, true)
 	c := session.DB(*flagDBName).C(Collection + ".layers")
-	var result []Layer
-	err := c.Find(bson.M{}).All(&result)
+	var layers []Layer
+	err := c.Find(bson.M{}).All(&layers)
 	if err != nil {
-		return result, err
+		return layers, err
 	}
-	return result, nil
+	return layers, nil
 }
 
 // AddLayer 함수는 Collection 에 layer를 추가한다.
