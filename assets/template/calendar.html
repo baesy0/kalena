@@ -29,15 +29,11 @@
 
 <div class="pb-5">
     <ul class="nav nav-tabs">
-        <li class="nav-item">
-            <a class="nav-link active">Layer1</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link">Layer2</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link">Layer3</a>
-        </li>
+        {{range .Layers}}
+            <li class="nav-item">
+                <a class="nav-link">{{.Name}}</a>
+            </li>
+        {{end}}
         <li class="nav-item">
             <a class="nav-link btn btn-sm btn-outline-dark" data-toggle="modal" data-target="#addLayer">+</a>
         </li>
