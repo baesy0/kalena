@@ -17,6 +17,7 @@ var (
 	flagAdd      = flag.Bool("add", false, "Add mode")
 	flagSearch   = flag.Bool("search", false, "Search mode")
 	flagAddLayer = flag.Bool("addlayer", false, "add layer mode")
+	flagRmLayer  = flag.Bool("rmlayer", false, "remove layer mode")
 
 	flagTitle       = flag.String("title", "", "Title")
 	flagLayerName   = flag.String("layername", "", "Layer name")
@@ -115,10 +116,26 @@ func main() {
 			log.Fatal(err)
 		}
 		defer session.Close()
-		c := session.DB(*flagDBName).C(*flagCollection)
+		c := session.DB(*flagDBName).C(*flagCollection + ".layers")
 		num, err := c.Find(bson.M{}).Count()
 		order := num + 1
 		err = AddLayer(session, *flagCollection, *flagLayerName, *flagLayerColor, order)
+		if err != nil {
+			log.Fatal(err)
+		}
+	} else if *flagRmLayer {
+		if *flagCollection == "" {
+			log.Fatal("collection을 입력해주세요")
+		}
+		if *flagLayerName == "" {
+			log.Fatal("layername을 입력해주세요")
+		}
+		session, err := mgo.Dial(*flagDBIP)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer session.Close()
+		err = RmLayer(session, *flagCollection, *flagLayerName)
 		if err != nil {
 			log.Fatal(err)
 		}
