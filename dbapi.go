@@ -137,14 +137,7 @@ func AddLayer(session *mgo.Session, Collection, name, color string, order int) e
 func RmLayer(session *mgo.Session, Collection, name string) error {
 	session.SetMode(mgo.Monotonic, true)
 	c := session.DB(*flagDBName).C(Collection + ".layers")
-	num, err := c.Find(bson.M{"name": name}).Count()
-	if err != nil {
-		return err
-	}
-	if num == 0 {
-		return errors.New(name + " layer가 존재하지 않습니다")
-	}
-	err = c.Remove(bson.M{"name": name})
+	err := c.Remove(bson.M{"name": name})
 	if err != nil {
 		return nil
 	}
