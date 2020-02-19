@@ -119,9 +119,12 @@ func AddLayer(session *mgo.Session, Collection, name, color string, order int) e
 		return errors.New(name + "layer가 존재합니다")
 	}
 	l := Layer{
-		Name:  name,
-		Color: color,
-		Order: order,
+		Name:   name,
+		Order:  order,
+		Hidden: false,
+	}
+	if regexWebColor.MatchString(color) {
+		l.Color = color
 	}
 	err = c.Insert(l)
 	if err != nil {

@@ -9,9 +9,10 @@ import (
 
 // Layer 자료구조
 type Layer struct {
-	Name  string `json:"name" bson:"name"`   // 표기명
-	Order int    `json:"order" bson:"order"` // Layer 순서
-	Color string `json:"color" bson:"color"` // Layer 순서
+	Name   string `json:"name" bson:"name"`     // 표기명
+	Color  string `json:"color" bson:"color"`   // Layer 컬러
+	Order  int    `json:"order" bson:"order"`   // Layer 순서
+	Hidden bool   `json:"hidden" bson:"hidden"` // Layer 숨김 속성
 }
 
 // Schedule 자료구조
@@ -25,7 +26,6 @@ type Schedule struct {
 	Endnum     int64         `json:"endnum" bson:"endnum"`         // 스케쥴 끝나는 날짜 int64
 	Color      string        `json:"color" bson:"color"`           //#FF3366, #ff3366, #f36, #F36
 	Layer      string        `json:"layer" bson:"layer"`           // 스케쥴이 속한 레이어의 이름
-	Hidden     bool          `json:"hidden" bson:"hidden"`         // 스케쥴 숨김 속성
 }
 
 // CheckError 매소드는 Schedule 자료구조에 에러가 있는지 체크한다.
