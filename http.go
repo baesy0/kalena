@@ -130,7 +130,7 @@ func handleSearch(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 	defer session.Close()
-	schedules, err := allSchedules(session, userID, layer)
+	schedules, err := allSchedules(session, userID)
 	if err != nil {
 		w.Write([]byte(err.Error()))
 		return
