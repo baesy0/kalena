@@ -61,20 +61,6 @@ func handleAPISchedule(w http.ResponseWriter, r *http.Request) {
 					return
 				}
 				s.Layer = values[0]
-			case "hidden":
-				if len(values) != 1 {
-					http.Error(w, "hidden를 설정해 주세요", http.StatusBadRequest)
-					return
-				}
-				if !(values[0] == "true" || values[0] == "false") {
-					http.Error(w, "true, false 값만 사용할 수 있습니다", http.StatusBadRequest)
-					return
-				}
-				if values[0] == "true" {
-					s.Hidden = true
-				} else {
-					s.Hidden = false
-				}
 			}
 		}
 		err := s.CheckError()
