@@ -106,6 +106,10 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	}
 	defer session.Close()
 	rcp.Layers, err = GetLayers(session, userID)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 	err = TEMPLATES.ExecuteTemplate(w, "index", rcp)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
