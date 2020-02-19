@@ -108,23 +108,18 @@ func GetLayers(session *mgo.Session, Collection string) ([]Layer, error) {
 }
 
 // AddLayer 함수는 Collection 에 layer를 추가한다.
-func AddLayer(session *mgo.Session, Collection, name, color string, order int) error {
+func AddLayer(session *mgo.Session, Collection string, l Layer) error {
 	session.SetMode(mgo.Monotonic, true)
 	c := session.DB(*flagDBName).C(Collection + ".layers")
-	num, err := c.Find(bson.M{"name": name}).Count()
+	num, err := c.Find(bson.M{"name": l.Name}).Count()
 	if err != nil {
 		return err
 	}
 	if num > 0 {
-		return errors.New(name + "layer가 존재합니다")
+		return errors.New(l.Name + "layer가 존재합니다")
 	}
-	l := Layer{
-		Name:   name,
-		Order:  order,
-		Hidden: false,
-	}
-	if regexWebColor.MatchString(color) {
-		l.Color = color
+	if !regexWebColor.MatchString(l.Color) {
+		return errors.New("#FFFFFF 형식의 컬러가 아닙니다")
 	}
 	err = c.Insert(l)
 	if err != nil {

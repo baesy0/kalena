@@ -95,3 +95,16 @@ func (s *Schedule) SetTimeNum() error {
 	s.Endnum = endNum
 	return nil
 }
+
+// CheckError 매소드는 Layer 자료구조에 에러가 있는지 체크한다.
+func (l Layer) CheckError() error {
+	if l.Name == "" {
+		return errors.New("Name 이 빈 문자열 입니다")
+	}
+	if l.Color != "" {
+		if !regexWebColor.MatchString(l.Color) {
+			return errors.New("#FF0011 형식의 컬러가 아닙니다")
+		}
+	}
+	return nil
+}
