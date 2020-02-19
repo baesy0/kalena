@@ -9,9 +9,9 @@ import (
 
 // Layer 자료구조
 type Layer struct {
-	ID    string `json:"id" bson:"id"`       // ID
 	Name  string `json:"name" bson:"name"`   // 표기명
 	Order int    `json:"order" bson:"order"` // Layer 순서
+	Color string `json:"color" bson:"color"` // Layer 순서
 }
 
 // Schedule 자료구조
