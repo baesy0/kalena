@@ -1,9 +1,8 @@
 package main
 
 import (
-	"sort"
+	"errors"
 	"strconv"
-	"strings"
 	"time"
 
 	"gopkg.in/mgo.v2"
@@ -97,26 +96,39 @@ func SearchMonth(session *mgo.Session, Collection, Layer, year, month string) ([
 }
 
 // GetLayers 함수는 DB Collection 에서 사용되는 모든 layer값을 반환한다.
-func GetLayers(session *mgo.Session, Collection, Layer string) ([]string, error) {
+func GetLayers(session *mgo.Session, Collection string) ([]Layer, error) {
 	session.SetMode(mgo.Monotonic, true)
-	collections, err := session.DB(*flagDBName).CollectionNames()
+	c := session.DB(*flagDBName).C(Collection + ".layers")
+	var layers []Layer
+	err := c.Find(bson.M{}).All(&layers)
 	if err != nil {
-		return nil, err
+		return layers, err
 	}
-	var layers []string
-	for _, l := range collections {
-		if l == "system.indexes" {
-			continue //mongodb의 기본 컬렉션이다. 제외한다.
-		}
-		if !strings.Contains(l, ".") { // collection 구조는 collection.layername 이다.
-			continue
-		}
-		layerName := strings.Split(l, ".")[1] // . 캐릭터의 뒷 부분이 layerName 이다.
-		if layerName == "" {
-			continue
-		}
-		layers = append(layers, layerName)
-	}
-	sort.Strings(layers)
 	return layers, nil
+}
+
+// AddLayer 함수는 Collection 에 layer를 추가한다.
+func AddLayer(session *mgo.Session, Collection, name, color string, order int) error {
+	session.SetMode(mgo.Monotonic, true)
+	c := session.DB(*flagDBName).C(Collection + ".layers")
+	num, err := c.Find(bson.M{"name": name}).Count()
+	if err != nil {
+		return err
+	}
+	if num > 0 {
+		return errors.New(name + "layer가 존재합니다")
+	}
+	l := Layer{
+		Name:   name,
+		Order:  order,
+		Hidden: false,
+	}
+	if regexWebColor.MatchString(color) {
+		l.Color = color
+	}
+	err = c.Insert(l)
+	if err != nil {
+		return err
+	}
+	return nil
 }

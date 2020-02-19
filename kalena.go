@@ -47,7 +47,6 @@ func main() {
 		s := Schedule{}
 		s.Collection = *flagCollection
 		s.Color = *flagColor
-		s.Hidden = *flagHidden
 		s.Title = *flagTitle
 		s.Layer = *flagLayer
 
