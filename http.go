@@ -62,8 +62,9 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 		Theme      string     `bson:"theme" json:"theme"`
 		Dates      [42]string `bson:"dates" json:"dates"`
 		Today      `bson:"today" json:"today"`
-		QueryYear  int `bson:"queryyear" json:"queryyear"`
-		QueryMonth int `bson:"querymonth" json:"querymonth"`
+		QueryYear  int     `bson:"queryyear" json:"queryyear"`
+		QueryMonth int     `bson:"querymonth" json:"querymonth"`
+		Layers     []Layer `bson:"layers" json:"layers"`
 	}
 	rcp := recipe{
 		Theme: "default.css",
@@ -98,6 +99,13 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	session, err := mgo.Dial(*flagDBIP)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer session.Close()
+	rcp.Layers, err = GetLayers(session, userID)
 	err = TEMPLATES.ExecuteTemplate(w, "index", rcp)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
