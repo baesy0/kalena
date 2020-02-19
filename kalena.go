@@ -8,18 +8,20 @@ import (
 	"os"
 
 	"gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
 )
 
 var (
 	// TEMPLATES 는 kalena에서 사용하는 템플릿 글로벌 변수이다.
-	TEMPLATES  = template.New("")
-	flagAdd    = flag.Bool("add", false, "Add mode")
-	flagSearch = flag.Bool("search", false, "Search mode")
+	TEMPLATES    = template.New("")
+	flagAdd      = flag.Bool("add", false, "Add mode")
+	flagSearch   = flag.Bool("search", false, "Search mode")
+	flagAddLayer = flag.Bool("addlayer", false, "add layer mode")
 
-	flagTitle  = flag.String("title", "", "Title")
-	flagLayer  = flag.String("layer", "", "Layer Title")
-	flagColor  = flag.String("color", "", "Layer Color")
-	flagHidden = flag.Bool("hidden", false, "Layer hidden")
+	flagTitle       = flag.String("title", "", "Title")
+	flagLayerName   = flag.String("layername", "", "Layer name")
+	flagLayerColor  = flag.String("layercolor", "", "Layer Color")
+	flagLayerHidden = flag.Bool("layerhidden", false, "Layer hidden")
 
 	flagStart    = flag.String("start", "", "Start time")
 	flagEnd      = flag.String("end", "", "End time")
@@ -46,9 +48,9 @@ func main() {
 		}
 		s := Schedule{}
 		s.Collection = *flagCollection
-		s.Color = *flagColor
+		s.Color = *flagLayerColor
 		s.Title = *flagTitle
-		s.Layer = *flagLayer
+		s.Layer = *flagLayerName
 
 		s.Start = *flagStart
 		s.End = *flagEnd
@@ -82,7 +84,7 @@ func main() {
 			log.Fatal(err)
 		}
 		defer session.Close()
-		testdata, err := SearchMonth(session, *flagCollection, *flagLayer, *flagYear, *flagMonth)
+		testdata, err := SearchMonth(session, *flagCollection, *flagLayerName, *flagYear, *flagMonth)
 		if err != nil {
 			log.Println(err)
 		}
@@ -95,6 +97,31 @@ func main() {
 		}
 		fmt.Printf("Service start: http://%s\n", ip)
 		webserver()
+	} else if *flagAddLayer {
+		if *flagCollection == "" {
+			log.Fatal("collection을 입력해주세요")
+		}
+		if *flagLayerName == "" {
+			log.Fatal("layername을 입력해주세요")
+		}
+		if *flagLayerColor == "" {
+			log.Fatal("layercolor를 입력해주세요")
+		}
+		if !regexWebColor.MatchString(*flagLayerColor) {
+			log.Fatal("#FFFFFF형식으로 입력해주세요")
+		}
+		session, err := mgo.Dial(*flagDBIP)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer session.Close()
+		c := session.DB(*flagDBName).C(*flagCollection)
+		num, err := c.Find(bson.M{}).Count()
+		order := num + 1
+		err = AddLayer(session, *flagCollection, *flagLayerName, *flagLayerColor, order)
+		if err != nil {
+			log.Fatal(err)
+		}
 	} else {
 		flag.PrintDefaults()
 		os.Exit(1)
