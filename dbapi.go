@@ -116,7 +116,7 @@ func AddLayer(session *mgo.Session, Collection string, l Layer) error {
 		return err
 	}
 	if num > 0 {
-		return errors.New(l.Name + "layer가 존재합니다")
+		return errors.New(name + " layer가 존재합니다")
 	}
 	if !regexWebColor.MatchString(l.Color) {
 		return errors.New("#FFFFFF 형식의 컬러가 아닙니다")
@@ -124,6 +124,17 @@ func AddLayer(session *mgo.Session, Collection string, l Layer) error {
 	err = c.Insert(l)
 	if err != nil {
 		return err
+	}
+	return nil
+}
+
+// RmLayer 는 이름이 name과 일치하는 layer를 삭제한다.
+func RmLayer(session *mgo.Session, Collection, name string) error {
+	session.SetMode(mgo.Monotonic, true)
+	c := session.DB(*flagDBName).C(Collection + ".layers")
+	err := c.Remove(bson.M{"name": name})
+	if err != nil {
+		return nil
 	}
 	return nil
 }
