@@ -116,7 +116,7 @@ func AddLayer(session *mgo.Session, Collection string, l Layer) error {
 		return err
 	}
 	if num > 0 {
-		return errors.New(name + " layer가 존재합니다")
+		return errors.New(l.Name + " layer가 존재합니다")
 	}
 	if !regexWebColor.MatchString(l.Color) {
 		return errors.New("#FFFFFF 형식의 컬러가 아닙니다")
