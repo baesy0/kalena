@@ -117,9 +117,12 @@ func main() {
 		}
 		defer session.Close()
 		c := session.DB(*flagDBName).C(*flagCollection + ".layers")
+		l := Layer{}
+		l.Name = *flagLayerName
+		l.Color = *flagLayerColor
 		num, err := c.Find(bson.M{}).Count()
-		order := num + 1
-		err = AddLayer(session, *flagCollection, *flagLayerName, *flagLayerColor, order)
+		l.Order = num + 1
+		err = AddLayer(session, *flagCollection, l)
 		if err != nil {
 			log.Fatal(err)
 		}
