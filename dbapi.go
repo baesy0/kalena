@@ -107,17 +107,15 @@ func GetCollections(session *mgo.Session) ([]string, error) {
 	}
 	var results []string
 	for _, c := range collections {
-		switch c {
-		case "system.indexes":
-			break //mongodb의 기본 컬렉션. 제외한다.
-		default:
-			if strings.Contains(c, ".") {
-				results = append(results, strings.Split(c, ".")[0])
-			} else {
-				results = append(results, c)
-			}
+		if c == "system.indexs" { //mongodb의 기본 컬렉션. 제외한다.
+			continue
 		}
+		if strings.Contains(c, ".layers") {
+			continue
+		}
+		results = append(results, c)
 	}
+	log.Println(results)
 	return results, nil
 }
 
