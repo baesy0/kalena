@@ -76,7 +76,6 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	rcp.Today.Date = d
 
 	q := r.URL.Query()
-	userID := q.Get("userid")
 	month, err := strconv.Atoi(q.Get("month"))
 	if err != nil {
 		rcp.QueryMonth = rcp.Today.Month // 입력이 제대로 안되면 이번 달을 넣는다
@@ -90,10 +89,6 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	} else {
 		rcp.QueryYear = year
 	}
-	// 75mm studio 일때만 css 파일을 변경한다. 이 구조는 개발 초기에만 사용한다.
-	if userID == "75mmstudio" {
-		rcp.Theme = "75mmstudio.css"
-	}
 	rcp.Dates, err = genDate(rcp.QueryYear, rcp.QueryMonth)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -105,6 +100,19 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer session.Close()
+	c, err := session.DB(*flagDBName).CollectionNames()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	userID := q.Get("userid")
+	if userID == "" {
+		userID = c[0]
+	}
+	// 75mm studio 일때만 css 파일을 변경한다. 이 구조는 개발 초기에만 사용한다.
+	if userID == "75mmstudio" {
+		rcp.Theme = "75mmstudio.css"
+	}
 	rcp.Layers, err = GetLayers(session, userID)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
