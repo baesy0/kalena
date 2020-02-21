@@ -2,7 +2,9 @@ package main
 
 import (
 	"errors"
+	"log"
 	"strconv"
+	"strings"
 	"time"
 
 	"gopkg.in/mgo.v2"
@@ -92,6 +94,28 @@ func SearchMonth(session *mgo.Session, Collection, year, month string) ([]Schedu
 	if err != nil {
 		return nil, err
 	}
+	return results, nil
+}
+
+//GetCollections 는 mongoDB의 모든 Collection 값을 가져온다.
+func GetCollections(session *mgo.Session) ([]string, error) {
+	session.SetMode(mgo.Monotonic, true)
+	collections, err := session.DB(*flagDBName).CollectionNames()
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	var results []string
+	for _, c := range collections {
+		if c == "system.indexs" { //mongodb의 기본 컬렉션. 제외한다.
+			continue
+		}
+		if strings.Contains(c, ".layers") {
+			continue
+		}
+		results = append(results, c)
+	}
+	log.Println(results)
 	return results, nil
 }
 

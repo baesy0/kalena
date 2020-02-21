@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -52,6 +53,25 @@ func webserver() {
 }
 
 func handleIndex(w http.ResponseWriter, r *http.Request) {
+	//userid가 빈 값이면 첫 번째 collection값을 넣어서 리다이렉트 해준다.
+	q := r.URL.Query()
+	userID := q.Get("userid")
+	if userID == "" {
+		session, err := mgo.Dial(*flagDBIP)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		defer session.Close()
+		collections, err := GetCollections(session)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		userID = collections[0]
+		http.Redirect(w, r, fmt.Sprintf("/?userid=%s", userID), http.StatusSeeOther)
+	}
+
 	w.Header().Set("Content-Type", "text/html")
 	type Today struct {
 		Year  int `bson:"year" json:"year"`
@@ -69,14 +89,15 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	rcp := recipe{
 		Theme: "default.css",
 	}
-
+	// 75mm studio 일때만 css 파일을 변경한다. 이 구조는 개발 초기에만 사용한다.
+	if userID == "75mmstudio" {
+		rcp.Theme = "75mmstudio.css"
+	}
 	y, m, d := time.Now().Date()
 	rcp.Today.Year = y
 	rcp.Today.Month = int(m)
 	rcp.Today.Date = d
 
-	q := r.URL.Query()
-	userID := q.Get("userid")
 	month, err := strconv.Atoi(q.Get("month"))
 	if err != nil {
 		rcp.QueryMonth = rcp.Today.Month // 입력이 제대로 안되면 이번 달을 넣는다
@@ -90,15 +111,12 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	} else {
 		rcp.QueryYear = year
 	}
-	// 75mm studio 일때만 css 파일을 변경한다. 이 구조는 개발 초기에만 사용한다.
-	if userID == "75mmstudio" {
-		rcp.Theme = "75mmstudio.css"
-	}
 	rcp.Dates, err = genDate(rcp.QueryYear, rcp.QueryMonth)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+
 	session, err := mgo.Dial(*flagDBIP)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
