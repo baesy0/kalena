@@ -68,7 +68,6 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		fmt.Println(collections)
 		userID = collections[0]
 		http.Redirect(w, r, fmt.Sprintf("/?userid=%s", userID), http.StatusSeeOther)
 	}
