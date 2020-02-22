@@ -110,7 +110,7 @@ func GetCollections(session *mgo.Session) ([]string, error) {
 		if c == "system.indexs" { //mongodb의 기본 컬렉션. 제외한다.
 			continue
 		}
-		if strings.Contains(c, ".layers") {
+		if strings.Contains(c, ".layers") { //collectionName.layers는 layer 정보를 담은 subdocument이다. 제외한다.
 			continue
 		}
 		results = append(results, c)
