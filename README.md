@@ -1,5 +1,5 @@
 # kalena
-![travisCI](https://secure.travis-ci.org/lazypic/kalena.png)
+![travisCI](https://secure.travis-ci.org/lazypic/kalena.svg)
 [![Go Report Card](https://goreportcard.com/badge/github.com/lazypic/kalena)](https://goreportcard.com/report/github.com/lazypic/kalena)
 
 Kalena is calendar web application based on opensource.<br>
@@ -37,3 +37,6 @@ $ mongo
 ```
 http://localhost/search?userid=bae&year=2019&month=11&day=21&layer=se
 ```
+
+### License
+- BSD 3-Clause License
