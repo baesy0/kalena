@@ -115,7 +115,6 @@ func GetCollections(session *mgo.Session) ([]string, error) {
 		}
 		results = append(results, c)
 	}
-	log.Println(results)
 	return results, nil
 }
 

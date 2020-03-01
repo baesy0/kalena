@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -69,7 +68,6 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		userID = collections[0]
-		http.Redirect(w, r, fmt.Sprintf("/?userid=%s", userID), http.StatusSeeOther)
 	}
 
 	w.Header().Set("Content-Type", "text/html")
