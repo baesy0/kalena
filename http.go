@@ -85,7 +85,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer session.Close()
-	// layer를 가지고 온다.
+	// currentlayer를 가지고 온다.
 	currentLayer := q.Get("currentlayer")
 	if currentLayer == "" {
 		layers, err := GetLayers(session, collection)
