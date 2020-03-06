@@ -54,6 +54,7 @@ func webserver() {
 func handleIndex(w http.ResponseWriter, r *http.Request) {
 	q := r.URL.Query()
 	collection := q.Get("collection")
+	currentLayer := q.Get("currentlayer")
 	if collection == "" {
 		session, err := mgo.Dial(*flagDBIP)
 		if err != nil {
@@ -76,12 +77,13 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 		Date  int `bson:"date" json:"date"`
 	}
 	type recipe struct {
-		Theme      string     `bson:"theme" json:"theme"`
-		Dates      [42]string `bson:"dates" json:"dates"`
-		Today      `bson:"today" json:"today"`
-		QueryYear  int     `bson:"queryyear" json:"queryyear"`
-		QueryMonth int     `bson:"querymonth" json:"querymonth"`
-		Layers     []Layer `bson:"layers" json:"layers"`
+		Theme        string     `bson:"theme" json:"theme"`
+		Dates        [42]string `bson:"dates" json:"dates"`
+		Today        `bson:"today" json:"today"`
+		QueryYear    int     `bson:"queryyear" json:"queryyear"`
+		QueryMonth   int     `bson:"querymonth" json:"querymonth"`
+		Layers       []Layer `bson:"layers" json:"layers"`
+		CurrentLayer string  `bson:"currentlayer" json:"currentlayer"`
 	}
 	rcp := recipe{
 		Theme: "default.css",
@@ -90,6 +92,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	if collection == "75mmstudio" {
 		rcp.Theme = "75mmstudio.css"
 	}
+	rcp.CurrentLayer = currentLayer
 	y, m, d := time.Now().Date()
 	rcp.Today.Year = y
 	rcp.Today.Month = int(m)
@@ -139,31 +142,31 @@ func handleSearch(w http.ResponseWriter, r *http.Request) {
 	year := q.Get("year")
 	month := q.Get("month")
 	day := q.Get("day")
-	layer := q.Get("layer")
-	if layer == "" {
+	currentLayer := q.Get("currentlayer")
+	if currentLayer == "" {
 		http.Error(w, "URL에 layer를 입력해주세요", http.StatusBadRequest)
 		return
 	}
 	sortKey := q.Get("sortkey")
+	log.Println(year, month, day, sortKey, currentLayer)
 	if collection == "" {
 		http.Error(w, "URL에 collection을 입력해주세요", http.StatusBadRequest)
 		return
 	}
-
-	log.Println(year, month, day, layer, sortKey)
-
 	session, err := mgo.Dial(*flagDBIP)
 	if err != nil {
-		log.Fatal(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 	defer session.Close()
 	schedules, err := allSchedules(session, collection)
 	if err != nil {
-		w.Write([]byte(err.Error()))
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	err = json.NewEncoder(w).Encode(schedules)
 	if err != nil {
-		log.Println(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 }
