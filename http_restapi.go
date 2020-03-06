@@ -8,6 +8,7 @@ import (
 	"gopkg.in/mgo.v2"
 )
 
+// handleAPISchedule 함수는 Schedule을 POST 한다.
 func handleAPISchedule(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
 		s := Schedule{}
@@ -95,7 +96,7 @@ func handleAPISchedule(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// handleAPILayer 핸들러는 Layer 정보를 설정한다.
+// handleAPILayer 핸들러는 Layer를 POST 한다.
 func handleAPILayer(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
 		var collection string
