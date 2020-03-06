@@ -88,6 +88,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	// currentlayer를 가지고 온다.
 	currentLayer := q.Get("currentlayer")
 	if currentLayer == "" {
+		// currentLayer가 빈 문자열이면 collection의 레이어들중 첫번째 레이어를 currnetLayer로 설정한다.
 		layers, err := GetLayers(session, collection)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
