@@ -33,9 +33,9 @@ func AddSchedule(session *mgo.Session, s Schedule) error {
 }
 
 // RmSchedule 함수는 DB에서 id가 일치하는 Schedule을 삭제한다.
-func RmSchedule(session *mgo.Session, Collection string, id bson.ObjectId) error {
+func RmSchedule(session *mgo.Session, collection string, id bson.ObjectId) error {
 	session.SetMode(mgo.Monotonic, true)
-	c := session.DB(*flagDBName).C(Collection)
+	c := session.DB(*flagDBName).C(collection)
 	err := c.RemoveId(id)
 	if err != nil {
 		return err
@@ -44,9 +44,9 @@ func RmSchedule(session *mgo.Session, Collection string, id bson.ObjectId) error
 }
 
 // allSchedules는 DB에서 전체 스케쥴 정보를 가져오는 함수입니다.
-func allSchedules(session *mgo.Session, Collection string) ([]Schedule, error) {
+func allSchedules(session *mgo.Session, collection string) ([]Schedule, error) {
 	session.SetMode(mgo.Monotonic, true)
-	c := session.DB(*flagDBName).C(Collection)
+	c := session.DB(*flagDBName).C(collection)
 	var result []Schedule
 	err := c.Find(bson.M{}).All(&result)
 	if err != nil {
@@ -56,9 +56,9 @@ func allSchedules(session *mgo.Session, Collection string) ([]Schedule, error) {
 }
 
 // SearchMonth 함수는 Collection, Year, Month을 입력받아 start의 값이 일치하면 반환한다.
-func SearchMonth(session *mgo.Session, Collection, year, month string) ([]Schedule, error) {
+func SearchMonth(session *mgo.Session, collection, year, month string) ([]Schedule, error) {
 	session.SetMode(mgo.Monotonic, true)
-	c := session.DB(*flagDBName).C(Collection)
+	c := session.DB(*flagDBName).C(collection)
 	var results []Schedule
 
 	y, err := strconv.Atoi(year)
@@ -119,9 +119,9 @@ func GetCollections(session *mgo.Session) ([]string, error) {
 }
 
 // GetLayers 함수는 DB Collection 에서 사용되는 모든 layer값을 반환한다.
-func GetLayers(session *mgo.Session, Collection string) ([]Layer, error) {
+func GetLayers(session *mgo.Session, collection string) ([]Layer, error) {
 	session.SetMode(mgo.Monotonic, true)
-	c := session.DB(*flagDBName).C(Collection + ".layers")
+	c := session.DB(*flagDBName).C(collection + ".layers")
 	var layers []Layer
 	err := c.Find(bson.M{}).All(&layers)
 	if err != nil {
@@ -131,9 +131,9 @@ func GetLayers(session *mgo.Session, Collection string) ([]Layer, error) {
 }
 
 // AddLayer 함수는 Collection 에 layer를 추가한다.
-func AddLayer(session *mgo.Session, Collection string, l Layer) error {
+func AddLayer(session *mgo.Session, collection string, l Layer) error {
 	session.SetMode(mgo.Monotonic, true)
-	c := session.DB(*flagDBName).C(Collection + ".layers")
+	c := session.DB(*flagDBName).C(collection + ".layers")
 	num, err := c.Find(bson.M{"name": l.Name}).Count()
 	if err != nil {
 		return err
@@ -152,9 +152,9 @@ func AddLayer(session *mgo.Session, Collection string, l Layer) error {
 }
 
 // RmLayer 는 이름이 name과 일치하는 layer를 삭제한다.
-func RmLayer(session *mgo.Session, Collection, name string) error {
+func RmLayer(session *mgo.Session, collection, name string) error {
 	session.SetMode(mgo.Monotonic, true)
-	c := session.DB(*flagDBName).C(Collection + ".layers")
+	c := session.DB(*flagDBName).C(collection + ".layers")
 	err := c.Remove(bson.M{"name": name})
 	if err != nil {
 		return nil
