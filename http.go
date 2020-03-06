@@ -88,7 +88,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	// currentlayer를 가지고 온다.
 	currentLayer := q.Get("currentlayer")
 	if currentLayer == "" {
-		// currentLayer가 빈 문자열이면 collection의 레이어들중 첫번째 레이어를 currnetLayer로 설정한다.
+		// currentLayer가 빈 문자열이면 collection의 레이어들중 첫번째 레이어를 currentLayer로 설정한다.
 		layers, err := GetLayers(session, collection)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -102,7 +102,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	}
 	// 아래부터는 달력을 렌더링 하기 위해서 생성하는 코드이다.
 
-	// Today 자료구조는 오늘 날짜를 하일라이트 하기위해서 사용하는 자료구조이다.
+	// Today 자료구조는 오늘 날짜를 하이라이트 하기위해서 사용하는 자료구조이다.
 	type Today struct {
 		Year  int `bson:"year" json:"year"`
 		Month int `bson:"month" json:"month"`
