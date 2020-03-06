@@ -31,7 +31,7 @@ var (
 	flagYear  = flag.String("year", "", "year to search")
 	flagMonth = flag.String("month", "", "month to search")
 
-	flagCollection = flag.String("collection", "", "username for DB collection")
+	flagCollection = flag.String("collection", "", "name for DB collection")
 
 	flagDBIP     = flag.String("dbip", "", "DB IP")
 	flagDBName   = flag.String("dbname", "kalena", "DB name")

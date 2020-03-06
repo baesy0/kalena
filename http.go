@@ -52,10 +52,9 @@ func webserver() {
 }
 
 func handleIndex(w http.ResponseWriter, r *http.Request) {
-	//userid가 빈 값이면 첫 번째 collection값을 넣어서 리다이렉트 해준다.
 	q := r.URL.Query()
-	userID := q.Get("userid")
-	if userID == "" {
+	collection := q.Get("collection")
+	if collection == "" {
 		session, err := mgo.Dial(*flagDBIP)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -67,7 +66,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		userID = collections[0]
+		collection = collections[0]
 	}
 
 	w.Header().Set("Content-Type", "text/html")
@@ -88,7 +87,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 		Theme: "default.css",
 	}
 	// 75mm studio 일때만 css 파일을 변경한다. 이 구조는 개발 초기에만 사용한다.
-	if userID == "75mmstudio" {
+	if collection == "75mmstudio" {
 		rcp.Theme = "75mmstudio.css"
 	}
 	y, m, d := time.Now().Date()
@@ -121,7 +120,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer session.Close()
-	rcp.Layers, err = GetLayers(session, userID)
+	rcp.Layers, err = GetLayers(session, collection)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -136,7 +135,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 // handleSearch
 func handleSearch(w http.ResponseWriter, r *http.Request) {
 	q := r.URL.Query()
-	userID := q.Get("userid")
+	collection := q.Get("collection")
 	year := q.Get("year")
 	month := q.Get("month")
 	day := q.Get("day")
@@ -146,8 +145,8 @@ func handleSearch(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	sortKey := q.Get("sortkey")
-	if userID == "" {
-		http.Error(w, "URL에 userid를 입력해주세요", http.StatusBadRequest)
+	if collection == "" {
+		http.Error(w, "URL에 collection을 입력해주세요", http.StatusBadRequest)
 		return
 	}
 
@@ -158,12 +157,11 @@ func handleSearch(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 	defer session.Close()
-	schedules, err := allSchedules(session, userID)
+	schedules, err := allSchedules(session, collection)
 	if err != nil {
 		w.Write([]byte(err.Error()))
 		return
 	}
-
 	err = json.NewEncoder(w).Encode(schedules)
 	if err != nil {
 		log.Println(err)
