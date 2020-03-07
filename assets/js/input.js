@@ -37,3 +37,32 @@ function addScheduleModal(){
         }
     });
 }
+
+//addLayerModal 함수는 모달을 통해 입력받은 layer를 REST API를 이용해서 DB에 저장한다.
+function addLayerModal(){
+    let e = document.getElementById("collection");
+    let collection = e.options[e.selectedIndex].value;
+    let name = document.getElementById("layerTitle").value;
+    let color = "#ff5733"
+    let order = 1
+    $.ajax({
+        url:"/api/layer",
+        type: "post",
+        data:{
+            collection: collection,
+            name: name,
+            order: order,
+            color: color,
+        },
+        dataType: "json",
+        success: function(data){
+            console.log("success");
+            alert("success!");
+            clearSelection();
+        },
+        error: function(request,status,error){
+            alert("code:"+request.status+"\n"+"status:"+status+"\n"+"msg:"+request.responseText+"\n"+"error:"+error);
+            clearSelection();
+        }
+    });
+}
