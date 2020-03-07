@@ -52,8 +52,8 @@ func webserver() {
 func handleIndex(w http.ResponseWriter, r *http.Request) {
 	q := r.URL.Query()
 	// collection 가지고오기.
-	collection := q.Get("collection")
-	if collection == "" {
+	currentcollection := q.Get("collection")
+	if currentcollection == "" {
 		session, err := mgo.Dial(*flagDBIP)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -65,7 +65,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		collection = collections[0]
+		currentcollection = collections[0]
 	}
 	// 연도를 가지고 온다.
 	year, err := strconv.Atoi(q.Get("year"))
@@ -88,8 +88,8 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	// currentlayer를 가지고 온다.
 	currentLayer := q.Get("currentlayer")
 	if currentLayer == "" {
-		// currentLayer가 빈 문자열이면 collection의 레이어들중 첫번째 레이어를 currentLayer로 설정한다.
-		layers, err := GetLayers(session, collection)
+		// currentLayer가 빈 문자열이면 currentcollection의 레이어들중 첫번째 레이어를 currentLayer로 설정한다.
+		layers, err := GetLayers(session, currentcollection)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -102,6 +102,11 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	}
 	// 아래부터는 달력을 렌더링 하기 위해서 생성하는 코드이다.
 
+	// 모든 collection을 가지고 온다
+	collections, err := GetCollections(session)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 	// Today 자료구조는 오늘 날짜를 하이라이트 하기위해서 사용하는 자료구조이다.
 	type Today struct {
 		Year  int `bson:"year" json:"year"`
@@ -115,29 +120,31 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	today.Date = d
 
 	type recipe struct {
-		Collection   string     `bson:"collection" json:"collection"`
-		QueryYear    int        `bson:"queryyear" json:"queryyear"`
-		QueryMonth   int        `bson:"querymonth" json:"querymonth"`
-		CurrentLayer string     `bson:"currentlayer" json:"currentlayer"`
-		Theme        string     `bson:"theme" json:"theme"`
-		Dates        [42]string `bson:"dates" json:"dates"`
-		Today        `bson:"today" json:"today"`
-		Layers       []Layer `bson:"layers" json:"layers"`
+		Collections       []string   `bson:"collections" json:"collections"`
+		CurrentCollection string     `bson:"currentcollection" json:"currentcollection"`
+		QueryYear         int        `bson:"queryyear" json:"queryyear"`
+		QueryMonth        int        `bson:"querymonth" json:"querymonth"`
+		Layers            []Layer    `bson:"layers" json:"layers"`
+		CurrentLayer      string     `bson:"currentlayer" json:"currentlayer"`
+		Theme             string     `bson:"theme" json:"theme"`
+		Dates             [42]string `bson:"dates" json:"dates"`
+		Today             `bson:"today" json:"today"`
 	}
 	rcp := recipe{
 		Theme: "default.css",
 	}
 	rcp.Today = today
-	rcp.Collection = collection
+	rcp.Collections = collections
+	rcp.CurrentCollection = currentcollection
 	rcp.QueryYear = year
 	rcp.QueryMonth = month
-	rcp.CurrentLayer = currentLayer
-	rcp.Dates, err = genDate(rcp.QueryYear, rcp.QueryMonth)
+	rcp.Layers, err = GetLayers(session, currentcollection)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	rcp.Layers, err = GetLayers(session, collection)
+	rcp.CurrentLayer = currentLayer
+	rcp.Dates, err = genDate(rcp.QueryYear, rcp.QueryMonth)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
