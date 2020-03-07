@@ -15,9 +15,9 @@
         </div>
         <!--dropdown for selecting user-->
         <select id="collection">
-            <option value="bae">bae</option>
-            <option value="woong">woong</option>
-            <option value="hyo">hyo</option>
+            {{range .Collections}}
+                <option value="{{.}}">{{.}}</option>
+            {{end}}
         </select>
         <!--addSchedule button-->
         <div class="col p-0 text-center">

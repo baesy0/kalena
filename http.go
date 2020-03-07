@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -102,6 +103,12 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	}
 	// 아래부터는 달력을 렌더링 하기 위해서 생성하는 코드이다.
 
+	// 모든 collection을 가지고 온다
+	collections, err := GetCollections(session)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+	fmt.Println(collections)
 	// Today 자료구조는 오늘 날짜를 하이라이트 하기위해서 사용하는 자료구조이다.
 	type Today struct {
 		Year  int `bson:"year" json:"year"`
@@ -115,29 +122,31 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	today.Date = d
 
 	type recipe struct {
-		Collection   string     `bson:"collection" json:"collection"`
-		QueryYear    int        `bson:"queryyear" json:"queryyear"`
-		QueryMonth   int        `bson:"querymonth" json:"querymonth"`
-		CurrentLayer string     `bson:"currentlayer" json:"currentlayer"`
-		Theme        string     `bson:"theme" json:"theme"`
-		Dates        [42]string `bson:"dates" json:"dates"`
-		Today        `bson:"today" json:"today"`
-		Layers       []Layer `bson:"layers" json:"layers"`
+		Collections       []string   `bson:"collections" json:"collections"`
+		CurrentCollection string     `bson:"currentcollection" json:"currentcollection"`
+		QueryYear         int        `bson:"queryyear" json:"queryyear"`
+		QueryMonth        int        `bson:"querymonth" json:"querymonth"`
+		Layers            []Layer    `bson:"layers" json:"layers"`
+		CurrentLayer      string     `bson:"currentlayer" json:"currentlayer"`
+		Theme             string     `bson:"theme" json:"theme"`
+		Dates             [42]string `bson:"dates" json:"dates"`
+		Today             `bson:"today" json:"today"`
 	}
 	rcp := recipe{
 		Theme: "default.css",
 	}
 	rcp.Today = today
-	rcp.Collection = collection
+	rcp.Collections = collections
+	rcp.CurrentCollection = collection
 	rcp.QueryYear = year
 	rcp.QueryMonth = month
-	rcp.CurrentLayer = currentLayer
-	rcp.Dates, err = genDate(rcp.QueryYear, rcp.QueryMonth)
+	rcp.Layers, err = GetLayers(session, collection)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	rcp.Layers, err = GetLayers(session, collection)
+	rcp.CurrentLayer = currentLayer
+	rcp.Dates, err = genDate(rcp.QueryYear, rcp.QueryMonth)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
