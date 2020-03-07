@@ -34,8 +34,9 @@
                 <div class="form-group">
                     <label for="layer" class="col-form-label">Layer</label>
                     <select class="form-control form-control-sm" id="layer">
-                        <option value="layer1">layer1</option>
-                        <option value="layer2">layer2</option>
+                        {{range .Layers}}
+                            <option value="{{.Name}}" {{if eq $.CurrentLayer .Name}}selected{{end}}>{{.Name}}</option>
+                        {{end}}
                     </select>
                 
                 </div>

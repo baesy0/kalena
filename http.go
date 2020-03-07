@@ -42,6 +42,7 @@ func webserver() {
 	http.HandleFunc("/", handleIndex)
 	// RestAPI
 	http.HandleFunc("/api/schedule", handleAPISchedule)
+	http.HandleFunc("/api/layer", handleAPILayer)
 	// 웹서버 실행
 	err = http.ListenAndServe(*flagHTTPPort, nil)
 	if err != nil {
