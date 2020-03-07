@@ -1,11 +1,17 @@
 {{define "calendar"}}
+<!--자바스크립트에서 사용하기 편하도록 필요한 값을 설정한다.-->
+<input type="hidden" id="todayyear" value="{{.Today.Year}}">
+<input type="hidden" id="todaymonth" value="{{.Today.Month}}">
+<input type="hidden" id="currentLayer" value="{{.CurrentLayer}}">
+
+<!--달력 렌더링-->
 <div class="container mt-3 mb-3" onload="highlightToday">
     <div class="row">
         <div class="col p-0">
             <div class="btn-group" role="group" aria-label="move">
-                <a href="/?year={{yearBefore .QueryYear .QueryMonth}}&month={{monthBefore .QueryMonth}}" class="btn btn-sm btn-outline-dark"><</a>
-                <a href="/?year={{yearAfter .QueryYear .QueryMonth}}&month={{monthAfter .QueryMonth}}" class="btn btn-sm btn-outline-dark">></a>
-                <a href="/?year={{.Today.Year}}&month={{.Today.Month}}" class="btn btn-sm btn-outline-dark">Today</a>
+                <a href="/?collection={{.CurrentCollection}}&year={{yearBefore .QueryYear .QueryMonth}}&month={{monthBefore .QueryMonth}}&currentlayer={{.CurrentLayer}}" class="btn btn-sm btn-outline-dark"><</a>
+                <a href="/?collection={{.CurrentCollection}}&year={{yearAfter .QueryYear .QueryMonth}}&month={{monthAfter .QueryMonth}}&currentlayer={{.CurrentLayer}}" class="btn btn-sm btn-outline-dark">></a>
+                <a href="/?collection={{.CurrentCollection}}&year={{.Today.Year}}&month={{.Today.Month}}&currentlayer={{.CurrentLayer}}" class="btn btn-sm btn-outline-dark">Today</a>
             </div>
         </div>
         <div class="col p-0 text-center h4">
@@ -14,9 +20,9 @@
             <span id="currentYear">{{.QueryYear}}</span>
         </div>
         <!--dropdown for selecting user-->
-        <select id="collection">
+        <select id="collection" onchange="redirect(this.value);">
             {{range .Collections}}
-                <option value="{{.}}">{{.}}</option>
+                <option value="{{.}}" {{if eq $.CurrentCollection .}}selected{{end}}>{{.}}</option>
             {{end}}
         </select>
         <!--addSchedule button-->
