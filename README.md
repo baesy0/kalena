@@ -23,14 +23,21 @@ We are making calender service for enterprise.
 
 
 ### 임시데이터 확인하기
+#### 스케쥴 확인
 ```
 $ mongo
 > use kalena
-> db.user1.find()
+> db.bae.find()
+```
+#### 레이어 확인
+```
+$ mongo
+> use kalena
+> db.bae.layers.find()
 ```
 ### 전체 데이터 삭제하기
 ```
-> db.user1.drop()
+> db.bae.drop()
 ```
 
 ### url로 스케쥴 검색하기
