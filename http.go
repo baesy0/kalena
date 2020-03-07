@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -53,8 +52,8 @@ func webserver() {
 func handleIndex(w http.ResponseWriter, r *http.Request) {
 	q := r.URL.Query()
 	// collection 가지고오기.
-	collection := q.Get("collection")
-	if collection == "" {
+	currentcollection := q.Get("collection")
+	if currentcollection == "" {
 		session, err := mgo.Dial(*flagDBIP)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -66,7 +65,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		collection = collections[0]
+		currentcollection = collections[0]
 	}
 	// 연도를 가지고 온다.
 	year, err := strconv.Atoi(q.Get("year"))
@@ -89,8 +88,8 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	// currentlayer를 가지고 온다.
 	currentLayer := q.Get("currentlayer")
 	if currentLayer == "" {
-		// currentLayer가 빈 문자열이면 collection의 레이어들중 첫번째 레이어를 currentLayer로 설정한다.
-		layers, err := GetLayers(session, collection)
+		// currentLayer가 빈 문자열이면 currentcollection의 레이어들중 첫번째 레이어를 currentLayer로 설정한다.
+		layers, err := GetLayers(session, currentcollection)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -108,7 +107,6 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
-	fmt.Println(collections)
 	// Today 자료구조는 오늘 날짜를 하이라이트 하기위해서 사용하는 자료구조이다.
 	type Today struct {
 		Year  int `bson:"year" json:"year"`
@@ -137,10 +135,10 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	}
 	rcp.Today = today
 	rcp.Collections = collections
-	rcp.CurrentCollection = collection
+	rcp.CurrentCollection = currentcollection
 	rcp.QueryYear = year
 	rcp.QueryMonth = month
-	rcp.Layers, err = GetLayers(session, collection)
+	rcp.Layers, err = GetLayers(session, currentcollection)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
