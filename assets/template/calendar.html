@@ -20,7 +20,7 @@
             <span id="currentYear">{{.QueryYear}}</span>
         </div>
         <!--dropdown for selecting user-->
-        <select id="collection" onchange="redirect(this.value);">
+        <select id="collection" onchange="redirect(this.value, {{.Today.Year}}, {{.Today.Month}});">
             {{range .Collections}}
                 <option value="{{.}}" {{if eq $.CurrentCollection .}}selected{{end}}>{{.}}</option>
             {{end}}

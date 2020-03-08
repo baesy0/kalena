@@ -89,9 +89,7 @@ window.onload = function highlightToday(){
 }
 
 // redirect 함수는 collection 이름을 받아서 오늘날짜의 달력으로 리다이렉션한다.
-function redirect(collection) {
-    let year = document.getElementById("todayyear").value;
-    let month = document.getElementById("todaymonth").value;
+function redirect(collection, year, month) {
     let currentLayer = "";
     let redirectURL = `/?collection=${collection}&year=${year}&month=${month}&currentlayer=${currentLayer}`;
     window.location.href = redirectURL;
