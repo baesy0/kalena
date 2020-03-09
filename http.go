@@ -51,6 +51,18 @@ func webserver() {
 }
 
 func handleIndex(w http.ResponseWriter, r *http.Request) {
+	// Today 자료구조는 오늘 날짜를 하이라이트 하기위해서 사용하는 자료구조이다.
+	type Today struct {
+		Year  int `bson:"year" json:"year"`
+		Month int `bson:"month" json:"month"`
+		Date  int `bson:"date" json:"date"`
+	}
+	today := Today{}
+	y, m, d := time.Now().Date()
+	today.Year = y
+	today.Month = int(m)
+	today.Date = d
+
 	q := r.URL.Query()
 	// collection 가지고오기.
 	currentcollection := q.Get("collection")
@@ -71,14 +83,12 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	// 연도를 가지고 온다.
 	year, err := strconv.Atoi(q.Get("year"))
 	if err != nil {
-		http.Error(w, "url에 year를 숫자로 입력해주세요", http.StatusBadRequest)
-		return
+		year = today.Year
 	}
 	// 월을 가지고 온다.
 	month, err := strconv.Atoi(q.Get("month"))
 	if err != nil {
-		http.Error(w, "url에 month를 숫자로 입력해주세요", http.StatusBadRequest)
-		return
+		month = today.Month
 	}
 	session, err := mgo.Dial(*flagDBIP)
 	if err != nil {
@@ -108,17 +118,6 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
-	// Today 자료구조는 오늘 날짜를 하이라이트 하기위해서 사용하는 자료구조이다.
-	type Today struct {
-		Year  int `bson:"year" json:"year"`
-		Month int `bson:"month" json:"month"`
-		Date  int `bson:"date" json:"date"`
-	}
-	today := Today{}
-	y, m, d := time.Now().Date()
-	today.Year = y
-	today.Month = int(m)
-	today.Date = d
 
 	type recipe struct {
 		Collections       []string   `bson:"collections" json:"collections"`
