@@ -91,13 +91,6 @@ func main() {
 		}
 		fmt.Println(testdata)
 		os.Exit(1)
-	} else if *flagHTTPPort != "" {
-		ip, err := serviceIP()
-		if err != nil {
-			log.Fatal(err)
-		}
-		fmt.Printf("Service start: http://%s\n", ip)
-		webserver()
 	} else if *flagAddLayer {
 		if *flagCollection == "" {
 			log.Fatal("collection을 입력해주세요")
@@ -142,6 +135,13 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
+	} else if *flagHTTPPort != "" {
+		ip, err := serviceIP()
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Printf("Service start: http://%s\n", ip)
+		webserver()
 	} else {
 		flag.PrintDefaults()
 		os.Exit(1)
