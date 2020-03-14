@@ -1,4 +1,6 @@
 #!/bin/sh
+set -e
+
 APP="kalena"
 
 go run assets/asset_generate.go
