@@ -10,5 +10,6 @@ services:
 - mongodb
 
 script:
+- go run assets/asset_generate.go
 - go test -race -coverprofile=coverage.txt -covermode=atomic ./...
 - go vet ./...

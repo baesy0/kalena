@@ -25,4 +25,6 @@ jobs:
         fi
 
     - name: Build
-      run: go build -v .
+      run: |
+        go run assets/asset_generate.go
+        go build -v .
