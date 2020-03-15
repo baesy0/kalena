@@ -63,21 +63,28 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	today.Month = int(m)
 	today.Date = d
 
+	session, err := mgo.Dial(*flagDBIP)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer session.Close()
+
+	// 모든 collection을 가지고 온다
+	collections, err := GetCollections(session)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	if len(collections) == 0 {
+		http.Error(w, "no collection exists", http.StatusInternalServerError)
+		return
+	}
+
 	q := r.URL.Query()
 	// collection 가지고오기.
 	currentcollection := q.Get("collection")
 	if currentcollection == "" {
-		session, err := mgo.Dial(*flagDBIP)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-		defer session.Close()
-		collections, err := GetCollections(session)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
 		currentcollection = collections[0]
 	}
 	// 연도를 가지고 온다.
@@ -90,12 +97,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		month = today.Month
 	}
-	session, err := mgo.Dial(*flagDBIP)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	defer session.Close()
+
 	// currentlayer를 가지고 온다.
 	currentLayer := q.Get("currentlayer")
 	if currentLayer == "" {
@@ -112,12 +114,6 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	// 아래부터는 달력을 렌더링 하기 위해서 생성하는 코드이다.
-
-	// 모든 collection을 가지고 온다
-	collections, err := GetCollections(session)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
 
 	type recipe struct {
 		Collections       []string   `bson:"collections" json:"collections"`
