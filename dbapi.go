@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"log"
 	"strconv"
 	"strings"
@@ -24,6 +25,17 @@ func AddSchedule(session *mgo.Session, s Schedule) error {
 		return err
 	}
 	session.SetMode(mgo.Monotonic, true)
+	l := session.DB(*flagDBName).C(s.Collection + ".layers")
+	// 이름이 일치하는 레이어가 있는지 검사한다.
+	layerNum, err := l.Find(bson.M{"name": s.Layer}).Count()
+	if err != nil {
+		return err
+	}
+	fmt.Println(layerNum)
+	// 이름이 일치하는 레이어가 없으면 에러처리
+	if layerNum == 0 {
+		return errors.New("해당 레이어가 존재하지 않습니다")
+	}
 	c := session.DB(*flagDBName).C(s.Collection)
 	err = c.Insert(s)
 	if err != nil {
