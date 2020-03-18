@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
 )
 
 // handleAPISchedule 함수는 Schedule을 POST 한다.
@@ -13,58 +14,55 @@ func handleAPISchedule(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
 		s := Schedule{}
 		r.ParseForm()
-		for key, values := range r.PostForm {
-			switch key {
-			case "collection":
-				if len(values) != 1 {
-					http.Error(w, "collection을 설정해 주세요", http.StatusBadRequest)
-					return
-				}
-				s.Collection = values[0]
-			case "title":
-				if len(values) != 1 {
-					http.Error(w, "title을 설정해 주세요", http.StatusBadRequest)
-					return
-				}
-				s.Title = values[0]
-			case "start":
-				if len(values) != 1 {
-					http.Error(w, "start를 설정해 주세요", http.StatusBadRequest)
-					return
-				}
-				if !regexRFC3339Time.MatchString(values[0]) {
-					http.Error(w, "시간 형식이 아닙니다", http.StatusBadRequest)
-					return
-				}
-				s.Start = values[0]
-			case "end":
-				if len(values) != 1 {
-					http.Error(w, "end를 설정해 주세요", http.StatusBadRequest)
-					return
-				}
-				if !regexRFC3339Time.MatchString(values[0]) {
-					http.Error(w, "시간 형식이 아닙니다", http.StatusBadRequest)
-					return
-				}
-				s.End = values[0]
-			case "color":
-				if len(values) != 1 {
-					http.Error(w, "color를 설정해 주세요", http.StatusBadRequest)
-					return
-				}
-				if !regexWebColor.MatchString(values[0]) {
-					http.Error(w, "#FFFFFF 형식이 아닙니다", http.StatusBadRequest)
-					return
-				}
-				s.Color = values[0]
-			case "layer":
-				if len(values) != 1 {
-					http.Error(w, "layer를 설정해 주세요", http.StatusBadRequest)
-					return
-				}
-				s.Layer = values[0]
-			}
+		collection := r.FormValue("collection")
+		if collection == "" {
+			http.Error(w, "collection을 설정해 주세요", http.StatusBadRequest)
+			return
 		}
+		s.Collection = collection
+		title := r.FormValue("title")
+		if title == "" {
+			http.Error(w, "title을 설정해 주세요", http.StatusBadRequest)
+			return
+		}
+		s.Title = title
+		start := r.FormValue("start")
+		if start == "" {
+			http.Error(w, "start를 설정해 주세요", http.StatusBadRequest)
+			return
+		}
+		if !regexRFC3339Time.MatchString(start) {
+			http.Error(w, "시간 형식이 아닙니다", http.StatusBadRequest)
+			return
+		}
+		s.Start = start
+		end := r.FormValue("end")
+		if end == "" {
+			http.Error(w, "end를 설정해 주세요", http.StatusBadRequest)
+			return
+		}
+		if !regexRFC3339Time.MatchString(end) {
+			http.Error(w, "시간 형식이 아닙니다", http.StatusBadRequest)
+			return
+		}
+		s.End = end
+		color := r.FormValue("color")
+		if color == "" {
+			http.Error(w, "color를 설정해 주세요", http.StatusBadRequest)
+			return
+		}
+		if !regexWebColor.MatchString(color) {
+			http.Error(w, "#FFFFFF 형식이 아닙니다", http.StatusBadRequest)
+			return
+		}
+		s.Color = color
+		layer := r.FormValue("layer")
+		if layer == "" {
+			http.Error(w, "layer를 설정해 주세요", http.StatusBadRequest)
+			return
+		}
+		s.Layer = layer
+
 		err := s.CheckError()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
@@ -76,6 +74,19 @@ func handleAPISchedule(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		defer session.Close()
+		l := session.DB(*flagDBName).C(s.Collection + ".layers")
+		// 이름이 일치하는 레이어가 있는지 검사한다.
+		layerNum, err := l.Find(bson.M{"name": s.Layer}).Count()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		// 이름이 일치하는 레이어가 없으면 에러처리
+		if layerNum == 0 {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		// 스케쥴 추가
 		err = AddSchedule(session, s)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
