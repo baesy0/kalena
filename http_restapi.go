@@ -74,9 +74,9 @@ func handleAPISchedule(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		defer session.Close()
-		l := session.DB(*flagDBName).C(s.Collection + ".layers")
-		// 이름이 일치하는 레이어가 있는지 검사한다.
-		layerNum, err := l.Find(bson.M{"name": s.Layer}).Count()
+		c := session.DB(*flagDBName).C(s.Collection + ".layers")
+		// 레이어설정 컬렉션에서 이름이 일치하는 레이어가 있는지 검사한다.
+		layerNum, err := c.Find(bson.M{"name": s.Layer}).Count()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
