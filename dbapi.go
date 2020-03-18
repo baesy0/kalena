@@ -55,7 +55,7 @@ func allSchedules(session *mgo.Session, collection string) ([]Schedule, error) {
 	return result, nil
 }
 
-// SearchMonth 함수는 Collection, Year, Month을 입력받아 start의 값이 일치하면 반환한다.
+// SearchMonth 함수는 Collection, Year, Month을 입력받아 해당 월의 스케쥴을 반환한다.
 func SearchMonth(session *mgo.Session, collection, year, month string) ([]Schedule, error) {
 	session.SetMode(mgo.Monotonic, true)
 	c := session.DB(*flagDBName).C(collection)

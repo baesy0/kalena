@@ -21,9 +21,9 @@ type Schedule struct {
 	Collection string        `json:"collection" bson:"collection"` // 사용자,장비명,회의실 이름이 될 수 있다
 	Title      string        `json:"title" bson:"title"`           // 스케쥴의 title
 	Start      string        `json:"start" bson:"start"`           // 스케쥴 시작 시간
-	Startnum   int64         `json:"startnum" bson:"startnum"`     // 스케쥴 시작 날짜 int64
+	Startnum   int64         `json:"startnum" bson:"startnum"`     // 스케쥴 시작 시간을 Excel 5digit general number으로 변환한 값. 이하 '엑셀날짜'로 표기한다.
 	End        string        `json:"end" bson:"end"`               // 스케쥴 끝나는 시간
-	Endnum     int64         `json:"endnum" bson:"endnum"`         // 스케쥴 끝나는 날짜 int64
+	Endnum     int64         `json:"endnum" bson:"endnum"`         // 스케쥴 끝나는 시간 Excel 5digit general number으로 변환한 값
 	Color      string        `json:"color" bson:"color"`           //#FF3366, #ff3366, #f36, #F36
 	Layer      string        `json:"layer" bson:"layer"`           // 스케쥴이 속한 레이어의 이름
 }

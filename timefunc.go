@@ -96,3 +96,28 @@ func genDate(year, month int) ([42]string, error) {
 	}
 	return result, nil
 }
+
+// genNumDate는 연도와 월을 받아서 해당 달의 날짜를 엑셀날짜 형태로 채운다.
+func genNumDate(year, month int) ([42]int64, error) {
+	var result [42]int64 // 43748 형태의 숫자가 저장될 리스트
+	// 현재 월의 시작일을 구한다.
+	currentStart, err := BeginningOfMonth(year, month)
+	if err != nil {
+		return result, err
+	}
+	t := currentStart.Format("2006-01-02T15:04:05Z0700")
+	// 시작일을 숫자로 변환한다.
+	currentStartNum, err := TimeToNum(t)
+	if err != nil {
+		return result, err
+	}
+	// 이번달이 무슨 요일로 시작하는지 구한다. 요일값을 이용해서 날짜를 offset 하기 위함이다.
+	offset := int(currentStart.Weekday())
+	// 시작일에서 offset만큼 뺀 숫자부터 차례대로 채운다.
+	StartNum := currentStartNum - int64(offset)
+	for n := 0; n < 42; n++ {
+		result[n] = StartNum
+		StartNum++
+	}
+	return result, nil
+}
