@@ -2,7 +2,6 @@ package main
 
 import (
 	"errors"
-	"fmt"
 	"log"
 	"strconv"
 	"strings"
@@ -31,7 +30,6 @@ func AddSchedule(session *mgo.Session, s Schedule) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println(layerNum)
 	// 이름이 일치하는 레이어가 없으면 에러처리
 	if layerNum == 0 {
 		return errors.New("해당 레이어가 존재하지 않습니다")
