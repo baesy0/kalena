@@ -97,7 +97,7 @@ func genDate(year, month int) ([42]string, error) {
 	return result, nil
 }
 
-// genNumDate는 연도와 월을 받아서 해당 달의 날짜를 숫자의 형태로 채운다.
+// genNumDate는 연도와 월을 받아서 해당 달의 날짜를 엑셀날짜 형태로 채운다.
 func genNumDate(year, month int) ([42]int64, error) {
 	var result [42]int64 // 43748 형태의 숫자가 저장될 리스트
 	// 현재 월의 시작일을 구한다.
