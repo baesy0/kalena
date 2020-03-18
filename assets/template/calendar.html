@@ -40,19 +40,20 @@
 </div>
 
 <div class="pb-5">
-    <ul class="nav nav-tabs">
+    <ul class="nav nav-tabs" id="layers">
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="modal" data-target="#addLayer">+</a>
+        </li>
         {{range .Layers}}
             <li class="nav-item">
-                <a class="nav-link">{{.Name}}</a>
+                <a href="/?collection={{$.CurrentCollection}}&year={{$.QueryYear}}&month={{$.QueryMonth}}&currentlayer={{.Name}}" id="layer-{{.Name}}" class="nav-link text-dark{{if eq .Name $.CurrentLayer}} active{{end}}">{{.Name}}</a>
             </li>
         {{end}}
-        <li class="nav-item">
-            <a class="nav-link btn btn-sm btn-outline-dark" data-toggle="modal" data-target="#addLayer">+</a>
-        </li>
     </ul>
 </div>
 
-<div style="width:90%" class="text-center mx-auto">
+
+<div style="width:90%" class="text-center mx-auto pt-5">
     <table id="calendar" class="w-100 text-right noselect" data-offset="{{offset .QueryYear .QueryMonth}}">
         <tr>
             <th class="cell-title">SUN</th>
