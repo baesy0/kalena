@@ -138,11 +138,12 @@ func handleAPILayer(w http.ResponseWriter, r *http.Request) {
 					http.Error(w, "hidden속성을 설정해 주세요", http.StatusBadRequest)
 					return
 				}
-				l.Hidden, err := strconv.ParseBool(values[0])
+				b, err := strconv.ParseBool(values[0])
 				if err != nil {
 					http.Error(w, err.Error(), http.StatusInternalServerError)
 					return
 				}
+				l.Hidden = b
 			}
 		}
 		err := l.CheckError()
