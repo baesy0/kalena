@@ -53,6 +53,7 @@ function addLayerModal(){
             name: name,
             order: order,
             color: color,
+            hidden: false,
         },
         dataType: "json",
         success: function(data){

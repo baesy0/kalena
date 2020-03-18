@@ -99,43 +99,49 @@ func handleAPISchedule(w http.ResponseWriter, r *http.Request) {
 // handleAPILayer 핸들러는 Layer를 POST 한다.
 func handleAPILayer(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
-		var collection string
 		l := Layer{}
 		r.ParseForm()
-		for key, values := range r.PostForm {
-			switch key {
-			case "collection":
-				if len(values) != 1 {
-					http.Error(w, "collection을 설정해 주세요", http.StatusBadRequest)
-					return
-				}
-				collection = values[0]
-			case "name":
-				if len(values) != 1 {
-					http.Error(w, "name을 설정해 주세요", http.StatusBadRequest)
-					return
-				}
-				l.Name = values[0]
-			case "order":
-				if len(values) != 1 {
-					http.Error(w, "순서를 설정해 주세요", http.StatusBadRequest)
-					return
-				}
-				order, err := strconv.Atoi(values[0])
-				if err != nil {
-					http.Error(w, err.Error(), http.StatusBadRequest)
-					return
-				}
-				l.Order = order
-			case "color":
-				if len(values) != 1 {
-					http.Error(w, "color를 설정해 주세요", http.StatusBadRequest)
-					return
-				}
-				l.Color = values[0]
-			}
+		collection := r.FormValue("collection")
+		if collection == "" {
+			http.Error(w, "collection을 설정해 주세요", http.StatusBadRequest)
+			return
 		}
-		err := l.CheckError()
+		name := r.FormValue("name")
+		if name == "" {
+			http.Error(w, "name 설정해 주세요", http.StatusBadRequest)
+			return
+		}
+		l.Name = name
+		order := r.FormValue("order")
+		if order == "" {
+			http.Error(w, "order를 설정해 주세요", http.StatusBadRequest)
+			return
+		}
+		o, err := strconv.Atoi(order)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		l.Order = o
+		color := r.FormValue("color")
+		if color == "" {
+			http.Error(w, "color를 설정해 주세요", http.StatusBadRequest)
+			return
+		}
+		l.Color = color
+		hidden := r.FormValue("hidden")
+		if hidden == "" {
+			http.Error(w, "hidden을 설정해 주세요", http.StatusBadRequest)
+			return
+		}
+		b, err := strconv.ParseBool(hidden)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		l.Hidden = b
+
+		err = l.CheckError()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
