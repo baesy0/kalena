@@ -56,13 +56,10 @@ function addLayerModal(){
         },
         dataType: "json",
         success: function(data){
-            console.log("success");
-            alert("success!");
-            clearSelection();
+            document.getElementById("layers").innerHTML += `<li class="nav-item"><a id="layer-${data.name}" class="nav-link">${data.name}</a></li>`
         },
         error: function(request,status,error){
             alert("code:"+request.status+"\n"+"status:"+status+"\n"+"msg:"+request.responseText+"\n"+"error:"+error);
-            clearSelection();
         }
     });
 }
