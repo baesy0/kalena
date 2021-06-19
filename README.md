@@ -1,5 +1,4 @@
 # kalena
-![travisCI](https://secure.travis-ci.org/lazypic/kalena.svg)
 [![Go Report Card](https://goreportcard.com/badge/github.com/lazypic/kalena)](https://goreportcard.com/report/github.com/lazypic/kalena)
 
 Kalena is calendar web application based on opensource.<br>
